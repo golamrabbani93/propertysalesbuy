@@ -36,8 +36,9 @@ export default function Page() {
 									<span className="font-normal">Find Your</span> Perfect Place.
 								</h2>
 								<p className="fs-5 fw-light px-xl-4 px-lg-4">
-									Cicero famously orated against his political opponent Lucius Sergius Catilina.
-									Occasionally the first Oration against Catiline is taken for type specimens
+									AK Property is a trusted name in opportunity, where buying is simple, and selling
+									is powerful, and shortening is bold. Every trade inspires clarity and confidence:
+									Buy, Sell, Short.
 								</p>
 							</div>
 							<FormThree />
@@ -53,8 +54,8 @@ export default function Page() {
 							<div className="sec-heading center mb-4">
 								<h2>Achievement</h2>
 								<p>
-									At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-									praesentium voluptatum deleniti atque corrupti quos dolores
+									Every milestone reflects dedication and skill. From small wins to major successes,
+									achievements inspire confidence and drive progress.
 								</p>
 							</div>
 						</div>
@@ -72,8 +73,8 @@ export default function Page() {
 							<div className="sec-heading center">
 								<h2>Recent Property For Rent</h2>
 								<p>
-									At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-									praesentium voluptatum deleniti atque corrupti quos dolores
+									Explore the latest rental properties—modern, convenient, and ready to move in.
+									Find your perfect space with ease and confidence.
 								</p>
 							</div>
 						</div>
@@ -89,8 +90,8 @@ export default function Page() {
 							<div className="sec-heading center">
 								<h2>Featured Property For Sale</h2>
 								<p>
-									At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-									praesentium voluptatum deleniti atque corrupti quos dolores
+									Discover the latest properties for sale—premium, ready to own, and full of
+									potential. Find your dream home with confidence.
 								</p>
 							</div>
 						</div>
@@ -98,7 +99,7 @@ export default function Page() {
 					<SellPropertyOne border={false} />
 					<div className="row">
 						<div className="col-lg-12 col-md-12 col-sm-12 text-center mt-4">
-							<Link href="/listings-list-with-sidebar" className="btn btn-primary px-lg-5 rounded">
+							<Link href="/properties" className="btn btn-primary px-lg-5 rounded">
 								Browse More Properties
 							</Link>
 						</div>
@@ -106,7 +107,7 @@ export default function Page() {
 				</div>
 			</section>
 
-			<section>
+			{/* <section>
 				<div className="container">
 					<div className="row justify-content-center">
 						<div className="col-lg-7 col-md-10 text-center">
@@ -128,7 +129,7 @@ export default function Page() {
 						</div>
 					</div>
 				</div>
-			</section>
+			</section> */}
 			<div className="clearfix"></div>
 
 			<section className="gray-bg">
@@ -138,8 +139,8 @@ export default function Page() {
 							<div className="sec-heading center">
 								<h2>Good Reviews by Customers</h2>
 								<p>
-									At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-									praesentium voluptatum deleniti atque corrupti quos dolores
+									Hear from our satisfied clients—real experiences, honest feedback, and stories
+									that reflect trust, quality, and excellence.
 								</p>
 							</div>
 						</div>
@@ -148,7 +149,7 @@ export default function Page() {
 				</div>
 			</section>
 
-			<section>
+			{/* <section>
 				<div className="container">
 					<div className="row justify-content-center">
 						<div className="col-lg-7 col-md-10 text-center">
@@ -163,7 +164,7 @@ export default function Page() {
 					</div>
 					<PricingOne />
 				</div>
-			</section>
+			</section> */}
 
 			<AppDownload />
 
