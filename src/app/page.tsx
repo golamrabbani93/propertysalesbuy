@@ -12,6 +12,7 @@ import FooterTop from './components/footer-top';
 import FooterLight from './components/footer-light';
 import ScrollToTop from './components/scroll-to-top';
 import Navbar from './components/navbar/navbar';
+import Footer from './components/footer';
 
 export default function Page() {
 	return (
@@ -164,7 +165,7 @@ export default function Page() {
 
 			<FooterTop bg="bg-primary" />
 
-			<FooterLight />
+			<Footer />
 
 			<ScrollToTop />
 		</>
