@@ -13,7 +13,11 @@ import FooterLight from './components/footer-light';
 import ScrollToTop from './components/scroll-to-top';
 import Navbar from './components/navbar/navbar';
 import Footer from './components/footer';
-
+import {Metadata} from 'next';
+export const metadata: Metadata = {
+	title: 'Home - AK Property',
+	description: 'Bangladesh Flat, House & Apartment Rental Platform',
+};
 export default function Page() {
 	return (
 		<>

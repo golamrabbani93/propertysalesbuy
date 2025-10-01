@@ -1,23 +1,21 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import './assets/css/styles.css'
-import './assets/css/colors.css'
+import type {Metadata} from 'next';
+import './globals.css';
+import './assets/css/styles.css';
+import './assets/css/colors.css';
 
 export const metadata: Metadata = {
-  title: "Resido - Next Js Real Estate Template",
-  description: "Resido - Next Js Real Estate Template",
+	title: 'Home - AK Property',
+	description: 'Bangladesh Flat, House & Apartment Rental Platform',
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className="blue-skin">
-        {children}
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body className="blue-skin">{children}</body>
+		</html>
+	);
 }
