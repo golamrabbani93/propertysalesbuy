@@ -21,7 +21,7 @@ export default function Page({params}: {params: {id: string}}) {
 						<div className="col-lg-8 col-md-12 col-sm-12">
 							<div className="property_block_wrap style-2 p-4">
 								<div className="prt-detail-title-desc">
-									<span className="label text-light bg-success">{data?.tag2}</span>
+									<span className="label text-light bg-success">For Sell</span>
 									<h3 className="mt-3">{data?.name}</h3>
 									<span>
 										<i className="lni-map-marker"></i> {data?.loction}

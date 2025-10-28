@@ -19,12 +19,12 @@ export default function DetailSidebar() {
 				<div className="sides-widget">
 					<div className="sides-widget-header bg-primary">
 						<div className="agent-photo">
-							<Image src="/img/svg/logo-light.svg" width={60} height={60} alt="" />
+							<Image src="/img/logo.svg" width={60} height={60} alt="" />
 						</div>
 						<div className="sides-widget-details">
-							<h4 className="text-uppercase">AK Property</h4>
+							<h4 className="text-uppercase">Propertysalesbuy</h4>
 							<span>
-								<i className="lni-phone-handset"></i>(91) 123 456 7895
+								<i className="lni-phone-handset"></i>01792125251
 							</span>
 						</div>
 						<div className="clearfix"></div>

@@ -52,7 +52,7 @@ export default function SellPropertyOne({border}: {border: any}) {
 									<div className="listing-detail-wrapper d-flex align-items-center justify-content-between">
 										<div className="listing-short-detail">
 											<div className="d-flex align-items-center">
-												<span
+												{/* <span
 													className={`label ${
 														item.tag2 === 'For Rent' ? 'bg-light-success text-success' : ''
 													} ${
@@ -60,10 +60,8 @@ export default function SellPropertyOne({border}: {border: any}) {
 													} d-inline-flex mb-1`}
 												>
 													{item.tag2}
-												</span>
-												<span
-													className={`label bg-light-purple text-purple d-inline-flex mb-1 ms-3`}
-												>
+												</span> */}
+												<span className={`label bg-light-purple text-purple d-inline-flex mb-1`}>
 													{item.type}
 												</span>
 											</div>

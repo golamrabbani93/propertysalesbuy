@@ -75,14 +75,14 @@ export default function GridProperty({item, border}: {item: any; border: any}) {
 					<div className="listing-short-detail-wrap">
 						<div className="listing-short-detail">
 							<div className="d-flex align-items-center">
-								{item.tag2 === 'For Rent' && (
+								{/* {item.tag2 === 'For Rent' && (
 									<span className="label bg-light-success text-success prt-type me-2">
 										For Rent
 									</span>
 								)}
 								{item.tag2 === 'For Sell' && (
 									<span className="label bg-light-danger text-danger prt-type me-2">For Sell</span>
-								)}
+								)} */}
 								<span className="label bg-light-purple text-purple property-cats">{item.type}</span>
 							</div>
 							<h4 className="listing-name fw-semibold fs-5 mb-2 mt-3">

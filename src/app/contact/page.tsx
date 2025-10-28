@@ -7,7 +7,7 @@ import ScrollToTop from '../components/scroll-to-top';
 import {Metadata} from 'next';
 
 export const metadata: Metadata = {
-	title: 'Contact Us - AK Property',
+	title: 'Contact Us - Propertysalesbuy',
 	description: 'Bangladesh Flat, House & Apartment Rental Platform',
 };
 export default function Page() {
@@ -76,11 +76,11 @@ export default function Page() {
 									</div>
 									<div className="cn-info-content">
 										<h4 className="cn-info-title">Reach Us</h4>
-										2512, New Market,
-										<br />
+										H-17,R-8,Dhanmondi,Dhaka
+										{/* <br />
 										Eliza Road, Sincher 80 CA,
 										<br />
-										Canada, USA
+										Canada, USA */}
 									</div>
 								</div>
 								<div className="cn-info-detail">
@@ -89,9 +89,7 @@ export default function Page() {
 									</div>
 									<div className="cn-info-content">
 										<h4 className="cn-info-title">Drop A Mail</h4>
-										support@Rikada.com
-										<br />
-										Rikada@gmail.com
+										hello@Propertysalesbuy
 									</div>
 								</div>
 								<div className="cn-info-detail">
@@ -100,9 +98,7 @@ export default function Page() {
 									</div>
 									<div className="cn-info-content">
 										<h4 className="cn-info-title">Call Us</h4>
-										(41) 123 521 458
-										<br />
-										+91 235 548 7548
+										01792125251
 									</div>
 								</div>
 							</div>

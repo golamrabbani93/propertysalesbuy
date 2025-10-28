@@ -2,9 +2,10 @@ import type {Metadata} from 'next';
 import './globals.css';
 import './assets/css/styles.css';
 import './assets/css/colors.css';
+import Providers from '@/redux/Providers';
 
 export const metadata: Metadata = {
-	title: 'Home - AK Property',
+	title: 'Home - Propertysalesbuy',
 	description: 'Bangladesh Flat, House & Apartment Rental Platform',
 };
 
@@ -15,7 +16,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className="blue-skin">{children}</body>
+			<body className="blue-skin">
+				<Providers>{children}</Providers>
+			</body>
 		</html>
 	);
 }

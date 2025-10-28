@@ -8,7 +8,7 @@ import Footer from '../components/footer';
 import ScrollToTop from '../components/scroll-to-top';
 import {Metadata} from 'next';
 export const metadata: Metadata = {
-	title: 'About Us - AK Property',
+	title: 'About Us - Propertysalesbuy',
 	description: 'Bangladesh Flat, House & Apartment Rental Platform',
 };
 export default function Page() {
@@ -62,16 +62,22 @@ export default function Page() {
 						<div className="col-lg-6 col-md-6">
 							<div className="story-wrap explore-content">
 								<h2>Our Story</h2>
-								<p>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-									incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-									exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-								</p>
-								<p>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-									incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-									exercitation ullamco laboris nisi ut aliquip.
-								</p>
+								At Propertysalesbuy, our journey began with a vision — to redefine the real estate
+								experience in Bangladesh by bringing trust, transparency, and modern living together
+								under one name. What started as a small initiative to connect families with their
+								dream homes has grown into a trusted platform for buying, selling, and renting
+								properties.
+								<br />
+								<br />
+								We believe that a property is more than just bricks and walls; it’s about building
+								dreams, creating memories, and ensuring a lifestyle filled with comfort and
+								security. Over the years, we’ve helped countless families, investors, and
+								professionals find not only a place to stay but also a place to belong.
+								<br />
+								<br />
+								With a dedicated team, a customer-first approach, and a deep understanding of the
+								market, Propertysalesbuy continues to create opportunities for people to live
+								better, smarter, and happier lives.
 							</div>
 						</div>
 					</div>

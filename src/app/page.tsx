@@ -4,18 +4,15 @@ import FormThree from './components/form/form-three';
 import Achievement from './components/achievement';
 import PropertySlider from './components/property-slider';
 import SellPropertyOne from './components/sell-property-one';
-import TeamOne from './components/team-one';
 import ClientOne from './components/client-one';
-import PricingOne from './components/pricing-one';
 import AppDownload from './components/app-download';
 import FooterTop from './components/footer-top';
-import FooterLight from './components/footer-light';
 import ScrollToTop from './components/scroll-to-top';
 import Navbar from './components/navbar/navbar';
 import Footer from './components/footer';
 import {Metadata} from 'next';
 export const metadata: Metadata = {
-	title: 'Home - AK Property',
+	title: 'Home - Propertysalesbuy',
 	description: 'Bangladesh Flat, House & Apartment Rental Platform',
 };
 export default function Page() {
@@ -36,9 +33,9 @@ export default function Page() {
 									<span className="font-normal">Find Your</span> Perfect Place.
 								</h2>
 								<p className="fs-5 fw-light px-xl-4 px-lg-4">
-									AK Property is a trusted name in opportunity, where buying is simple, and selling
-									is powerful, and shortening is bold. Every trade inspires clarity and confidence:
-									Buy, Sell, Short.
+									Propertysalesbuy is a trusted name in opportunity, where buying is simple, and
+									selling is powerful, and shortening is bold. Every trade inspires clarity and
+									confidence: Buy, Sell, Short.
 								</p>
 							</div>
 							<FormThree />

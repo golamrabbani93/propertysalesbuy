@@ -93,7 +93,7 @@ export default function NavLight() {
 									</>
 								)}
 
-								<h5 className="fs-3 fw-bold ms-1 my-0">AK Property</h5>
+								<h5 className="fs-3 fw-bold ms-1 my-0">Propertysalesbuy</h5>
 							</Link>
 							<div className="nav-toggle" onClick={() => setIsToggle(!toggle)}></div>
 							<div className="mobile_nav">
