@@ -16,11 +16,15 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className="blue-skin">
-				<Providers>
-					{children}
+			<body className="blue-skin position-relative">
+				<Providers>{children}</Providers>
+				<div
+					style={{
+						position: 'absolute',
+					}}
+				>
 					<Toaster closeButton richColors duration={4000} position="top-center" />
-				</Providers>
+				</div>
 			</body>
 		</html>
 	);
