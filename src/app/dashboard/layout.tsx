@@ -10,11 +10,12 @@ import ScrollToTop from '../components/scroll-to-top';
 
 export default function Page({children}: {children: React.ReactNode}) {
 	let [show, setShow] = useState<boolean>(false);
+	console.log('🚀🚀 ~ Page ~ show:', show);
 	return (
 		<>
 			<UserNav />
 
-			<section className="bg-light">
+			<div className="bg-light dashboard-padding">
 				<div className="container-fluid">
 					<div className="row">
 						<div className="col-lg-12 col-md-12">
@@ -37,7 +38,7 @@ export default function Page({children}: {children: React.ReactNode}) {
 						<div className="col-lg-9 col-md-12">{children}</div>
 					</div>
 				</div>
-			</section>
+			</div>
 
 			<FooterTop bg="theme-bg" />
 

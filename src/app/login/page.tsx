@@ -19,8 +19,10 @@ import {useAppDispatch} from '@/redux/hooks';
 import {setUser} from '@/redux/features/auth/authSlice';
 import {TUser} from '@/types/user.types';
 import {FetchBaseQueryError} from '@reduxjs/toolkit/query';
+import {useRouter} from 'next/navigation';
 export default function Page() {
 	const [makeLogin, {isLoading}] = useUserLoginMutation();
+	const router = useRouter();
 	// Handle form submission
 	const dispatch = useAppDispatch();
 	// Handle form submission
@@ -48,7 +50,8 @@ export default function Page() {
 					toast.error((result.error as any).message ?? 'An error occurred');
 				}
 			} else {
-				dispatch(setUser({...result?.data, token: token}));
+				dispatch(setUser({...result?.data, token}));
+				router.push('/dashboard');
 				toast.success('User Logged in successfully');
 				methods.reset();
 			}

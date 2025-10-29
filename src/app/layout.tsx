@@ -4,6 +4,7 @@ import './assets/css/styles.css';
 import './assets/css/colors.css';
 import Providers from '@/redux/Providers';
 import {Toaster} from 'sonner';
+import MobileNav from './components/navbar/MobileNav';
 export const metadata: Metadata = {
 	title: 'Home - Propertysalesbuy',
 	description: 'Bangladesh Flat, House & Apartment Rental Platform',
@@ -18,6 +19,7 @@ export default function RootLayout({
 		<html lang="en">
 			<body className="blue-skin position-relative">
 				<Providers>{children}</Providers>
+				<MobileNav />
 				<div
 					style={{
 						position: 'absolute',

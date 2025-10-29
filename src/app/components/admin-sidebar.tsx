@@ -1,14 +1,27 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
-import {usePathname} from 'next/navigation';
+import {usePathname, useRouter} from 'next/navigation';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
+import {clearUser, selectUser} from '@/redux/features/auth/authSlice';
+import {removeToken} from '@/services/token/getToken';
+import {toast} from 'sonner';
 
 export default function AdminSidebar({show, setShow}: {show: any; setShow: any}) {
+	const dispatch = useAppDispatch();
+	const navigate = useRouter();
+	const user = useAppSelector(selectUser);
+	const userLogout = async () => {
+		dispatch(clearUser());
+		await removeToken();
+		navigate.push('/');
+		toast.success('Logged out successfully');
+	};
 	const location = usePathname();
 	const current = location;
 	return (
 		<div
-			className={`simple-sidebar sm-sidebar ${show ? 'd-block d-md-block' : 'd-none d-md-block'}`}
+			className={`simple-sidebar sm-sidebar ${show ? 'd-block' : 'd-none'}  d-lg-block`}
 			id="filter_search"
 		>
 			<div className="search-sidebar_header">
@@ -21,9 +34,9 @@ export default function AdminSidebar({show, setShow}: {show: any; setShow: any})
 			<div className="sidebar-widgets">
 				<div className="dashboard-navbar">
 					<div className="d-user-avater">
-						<img src="/img/team-1.jpg" className="img-fluid avater" alt="" />
-						<h4>Adam Harshvardhan</h4>
-						<span>Canada USA</span>
+						<img src={user?.image} className="img-fluid avater" alt="" />
+						<h4>{user?.name || ''}</h4>
+						{/* <span>Canada USA</span> */}
 					</div>
 					<div className="d-navigation">
 						<ul>
@@ -75,8 +88,13 @@ export default function AdminSidebar({show, setShow}: {show: any; setShow: any})
 									<i className="fa-solid fa-unlock"></i>Change Password
 								</Link>
 							</li>
-							<li className={current === '#' ? 'active' : ''} onClick={() => setShow(!show)}>
-								<Link href="#">
+							<li
+								className={current === '#' ? 'active' : ''}
+								onClick={() => {
+									userLogout();
+								}}
+							>
+								<Link href="#" style={{color: 'red'}}>
 									<i className="fa-solid fa-power-off"></i>Log Out
 								</Link>
 							</li>

@@ -1,12 +1,16 @@
 'use client';
 import React, {useState, useEffect} from 'react';
 import Link from 'next/link';
-import {usePathname} from 'next/navigation';
+import {usePathname, useRouter} from 'next/navigation';
 
 import {FiChevronDown} from 'react-icons/fi';
 import {TiSocialGooglePlus, TiSocialFacebook} from 'react-icons/ti';
 
 import {navProperty} from '../../data/data';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
+import {clearUser, selectUser} from '@/redux/features/auth/authSlice';
+import {removeToken} from '@/services/token/getToken';
+import {toast} from 'sonner';
 
 export default function UserNav() {
 	const [activeMenu, setActiveMenu] = useState<{[key: string]: {[key: string]: boolean}}>({});
@@ -16,12 +20,19 @@ export default function UserNav() {
 	const [property, setProperty] = useState<boolean>(false);
 	const [activeTab, setActiveTab] = useState<number>(1);
 	const [userMenu, setUserMenu] = useState<boolean>(false);
-
+	const user = useAppSelector(selectUser);
 	let [scroll, setScroll] = useState<boolean>(false);
 
 	const location = usePathname();
 	const current = location;
-
+	const dispatch = useAppDispatch();
+	const navigate = useRouter();
+	const userLogout = async () => {
+		dispatch(clearUser());
+		await removeToken();
+		navigate.push('/');
+		toast.success('Logged out successfully');
+	};
 	const handleMouseEnter = (menu: string, submenu?: string) => {
 		setActiveMenu((prev) => ({
 			...prev,
@@ -73,7 +84,11 @@ export default function UserNav() {
 
 	return (
 		<>
-			<div className={`header header-light head-shadow ${scroll ? 'header-fixed' : ''}`}>
+			<div
+				className={`d-none d-lg-block header header-light head-shadow ${
+					scroll ? 'header-fixed' : ''
+				}`}
+			>
 				<div className="container">
 					<nav
 						id="navigation"
@@ -140,7 +155,7 @@ export default function UserNav() {
 												id="showbuttons"
 												onClick={() => setUserMenu(!userMenu)}
 											>
-												<img src="/img/team-1.jpg" className="avater-img" alt="" />
+												<img src={user?.image} className="avater-img" alt="" />
 											</button>
 											<div
 												className="dropdown-menu pull-right animated flipInX"
@@ -164,6 +179,9 @@ export default function UserNav() {
 												</Link>
 												<Link href="/change-password">
 													<i className="fa-solid fa-unlock"></i>Change Password
+												</Link>
+												<Link href="#" onClick={userLogout}>
+													<i className="fa-solid fa-power-off"></i>Log Out
 												</Link>
 											</div>
 										</div>
@@ -204,8 +222,8 @@ export default function UserNav() {
 												className="btn btn-order-by-filt dropdown-toggle"
 												onClick={() => setUserMenu(!userMenu)}
 											>
-												<img src="/img/team-1.jpg" className="avater-img" alt="" />
-												Hi, Admin
+												<img src={user?.image} className="avater-img" alt="" />
+												Hi, {user?.name}
 											</button>
 											<div
 												className="dropdown-menu pull-right animated flipInX"
@@ -229,6 +247,9 @@ export default function UserNav() {
 												</Link>
 												<Link href="/change-password">
 													<i className="fa-solid fa-unlock"></i>Change Password
+												</Link>
+												<Link href="#" onClick={userLogout} style={{color: 'red'}}>
+													<i className="fa-solid fa-power-off"></i>Log Out
 												</Link>
 											</div>
 										</div>

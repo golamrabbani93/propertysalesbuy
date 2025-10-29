@@ -220,13 +220,13 @@ export default function Footer() {
 
 			<div className="footer-bottom">
 				<div className="container">
-					<div className="row align-items-center">
+					<div className="row align-items-center justify-content-center">
 						<div className="col-lg-6 col-md-6">
-							<p className="mb-0">
+							<p className="mb-0 text-md-start text-center">
 								© {new Date().getFullYear()} Propertysalesbuy. All Rights Reserved.
 							</p>
 						</div>
-						<div className="col-lg-6 col-md-6 text-right">
+						<div className="col-lg-6 col-md-6 text-md-end text-center">
 							<ul className="footer-bottom-social">
 								<li>
 									<Link href="#" target="_blank">

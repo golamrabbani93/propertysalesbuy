@@ -1,24 +1,20 @@
 'use client';
 import React, {useState, useEffect} from 'react';
 import Link from 'next/link';
-import {usePathname} from 'next/navigation';
+import {usePathname, useRouter} from 'next/navigation';
 
 import {FiChevronDown} from 'react-icons/fi';
 import {TiSocialGooglePlus, TiSocialFacebook} from 'react-icons/ti';
 
 import {navProperty} from '../../data/data';
 import Image from 'next/image';
-import PSBForm from '../form/PSBForm';
-import PSBInput from '../form/PSBInput';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {loginSchema} from '@/schemas/register.schema';
-import {useAppDispatch} from '@/redux/hooks';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {FieldValues} from 'react-hook-form';
 import {catchAsync} from '@/utils/catchAsync';
 import {useUserLoginMutation} from '@/redux/features/auth/authManagementApi';
 import {toast} from 'sonner';
-import {setUser} from '@/redux/features/auth/authSlice';
-import {setToken} from '@/services/token/getToken';
+import {clearUser, selectUser, setUser} from '@/redux/features/auth/authSlice';
+import {removeToken, setToken} from '@/services/token/getToken';
 import {TUser} from '@/types/user.types';
 import {FetchBaseQueryError} from '@reduxjs/toolkit/query';
 
@@ -31,10 +27,11 @@ export default function Navbar({transparent}: {transparent: any}) {
 	const [activeTab, setActiveTab] = useState<number>(1);
 	const [makeLogin, {isLoading}] = useUserLoginMutation();
 	let [scroll, setScroll] = useState<boolean>(false);
-
+	const user = useAppSelector(selectUser);
 	const location = usePathname();
 	const current = location;
-
+	const [userMenu, setUserMenu] = useState<boolean>(false);
+	const navigate = useRouter();
 	useEffect(() => {
 		if (typeof window === 'undefined') return;
 		window.scrollTo(0, 0);
@@ -69,7 +66,6 @@ export default function Navbar({transparent}: {transparent: any}) {
 		catchAsync(async () => {
 			const loginData = {email: data.email, password: data.password};
 			const result = await makeLogin(loginData);
-			console.log('🚀🚀 ~ handleSubmit ~ result:', result);
 			const token = await setToken(result?.data as TUser);
 
 			const isFetchBaseQueryError = (err: unknown): err is FetchBaseQueryError =>
@@ -95,10 +91,17 @@ export default function Navbar({transparent}: {transparent: any}) {
 			}
 		});
 	};
+	const userLogout = async () => {
+		dispatch(clearUser());
+		await removeToken();
+		navigate.push('/');
+		setUserMenu(!userMenu);
+		toast.success('Logged out successfully');
+	};
 	return (
 		<>
 			<div
-				className={`header ${scroll ? 'header-fixed' : ''} ${
+				className={`d-none d-lg-block header ${scroll ? 'header-fixed' : ''} ${
 					transparent ? 'header-transparent dark' : 'header-light head-shadow'
 				}`}
 			>
@@ -119,7 +122,7 @@ export default function Navbar({transparent}: {transparent: any}) {
 								</h5>
 							</Link>
 							{/* <div className="nav-toggle" onClick={() => setIsToggle(!toggle)}></div> */}
-							<div className="mobile_nav">
+							{/* <div className="mobile_nav">
 								<ul>
 									<li>
 										<Link href="#" onClick={() => setLogin(!login)}>
@@ -137,7 +140,7 @@ export default function Navbar({transparent}: {transparent: any}) {
 										</Link>
 									</li>
 								</ul>
-							</div>
+							</div> */}
 						</div>
 						<div
 							className={`nav-menus-wrapper  ${toggle ? 'nav-menus-wrapper-open' : ''}`}
@@ -165,34 +168,76 @@ export default function Navbar({transparent}: {transparent: any}) {
 
 							<ul className="nav-menu nav-menu-social align-to-right d-none d-lg-inline-flex">
 								<li>
-									<Link
-										href="/login"
-										data-bs-toggle="modal"
-										data-bs-target="#login"
-										className="fw-medium text-muted-2"
-									>
-										<span className="svg-icon svg-icon-2hx me-1">
-											<svg
-												width="22"
-												height="22"
-												viewBox="0 0 18 18"
-												fill="none"
-												xmlns="http://www.w3.org/2000/svg"
+									{user?.id ? (
+										<div className="btn-group account-drop  me-4" suppressHydrationWarning={true}>
+											<button
+												type="button"
+												className="btn btn-order-by-filt dropdown-toggle"
+												id="showbuttons"
+												onClick={() => setUserMenu(!userMenu)}
 											>
-												<path
-													opacity="0.3"
-													d="M16.5 9C16.5 13.125 13.125 16.5 9 16.5C4.875 16.5 1.5 13.125 1.5 9C1.5 4.875 4.875 1.5 9 1.5C13.125 1.5 16.5 4.875 16.5 9Z"
-													fill="currentColor"
-												/>
-												<path
-													d="M9 16.5C10.95 16.5 12.75 15.75 14.025 14.55C13.425 12.675 11.4 11.25 9 11.25C6.6 11.25 4.57499 12.675 3.97499 14.55C5.24999 15.75 7.05 16.5 9 16.5Z"
-													fill="currentColor"
-												/>
-												<rect x="7" y="6" width="4" height="4" rx="2" fill="currentColor" />
-											</svg>
-										</span>
-										Login
-									</Link>
+												<img src={user?.image} className="avater-img" alt="" />
+												<span className="d-none d-xl-block">hi, {user?.name} </span>
+											</button>
+											<div
+												className="dropdown-menu pull-right animated flipInX"
+												id="showings"
+												style={{display: userMenu ? 'block' : 'none'}}
+											>
+												<Link href="/dashboard">
+													<i className="fa-solid fa-gauge"></i>Dashboard
+												</Link>
+												<Link href="/my-profile">
+													<i className="fa-solid fa-address-card"></i>My Profile
+												</Link>
+												<Link href="/my-property">
+													<i className="fa-solid fa-building-circle-check"></i>My Property
+												</Link>
+												<Link href="/bookmark-list">
+													<i className="fa-solid fa-bookmark"></i>Bookmarked Property
+												</Link>
+												<Link href="/submit-property-dashboard">
+													<i className="fa-solid fa-house"></i>Submit Property
+												</Link>
+												<Link href="/change-password">
+													<i className="fa-solid fa-unlock"></i>Change Password
+												</Link>
+
+												<Link href="#" onClick={userLogout}>
+													<i className="fa-solid fa-power-off"></i>Log Out
+												</Link>
+											</div>
+										</div>
+									) : (
+										<Link
+											href="/login"
+											data-bs-toggle="modal"
+											data-bs-target="#login"
+											className="fw-medium text-muted-2"
+										>
+											<span className="svg-icon svg-icon-2hx me-1">
+												<svg
+													width="22"
+													height="22"
+													viewBox="0 0 18 18"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														opacity="0.3"
+														d="M16.5 9C16.5 13.125 13.125 16.5 9 16.5C4.875 16.5 1.5 13.125 1.5 9C1.5 4.875 4.875 1.5 9 1.5C13.125 1.5 16.5 4.875 16.5 9Z"
+														fill="currentColor"
+													/>
+													<path
+														d="M9 16.5C10.95 16.5 12.75 15.75 14.025 14.55C13.425 12.675 11.4 11.25 9 11.25C6.6 11.25 4.57499 12.675 3.97499 14.55C5.24999 15.75 7.05 16.5 9 16.5Z"
+														fill="currentColor"
+													/>
+													<rect x="7" y="6" width="4" height="4" rx="2" fill="currentColor" />
+												</svg>
+											</span>
+											Login
+										</Link>
+									)}
 								</li>
 								<li className="add-listing">
 									<Link href="/submit-property" className="bg-primary">
@@ -206,6 +251,7 @@ export default function Navbar({transparent}: {transparent: any}) {
 										Post & Sell
 									</Link>
 								</li>
+
 								{/* <li>
 									<Link href="#" className="text-primary" onClick={() => setProperty(!property)}>
 										<span className="svg-icon svg-icon-2hx">
