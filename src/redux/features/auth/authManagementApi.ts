@@ -22,7 +22,6 @@ const authManagementApi = baseApi.injectEndpoints({
 		userLogin: builder.mutation({
 			queryFn: async (data, _queryApi, _extraOptions, baseQuery) => {
 				try {
-					// 1. Fetch all users
 					const response = await baseQuery({
 						url: `PSBUser/`,
 						method: 'GET',
@@ -34,19 +33,16 @@ const authManagementApi = baseApi.injectEndpoints({
 
 					const users: TUser[] = response.data as TUser[];
 
-					// 2. Find user by email
 					const user = users.find((u) => u.email === data.email);
 					if (!user) {
 						return {error: {status: 404, data: 'User not found'}};
 					}
 
-					// 3. Compare password
-					const isPasswordValid = await comparePassword(data.password, user.password_hash);
+					const isPasswordValid = await comparePassword(data.password, user.password);
 					if (!isPasswordValid) {
 						return {error: {status: 401, data: 'Invalid password'}};
 					}
 
-					// 4. Success
 					return {data: user}; // ✅ Return inside { data }
 				} catch (err: any) {
 					console.error(err);

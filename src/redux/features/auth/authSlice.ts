@@ -19,7 +19,9 @@ const authSlice = createSlice({
 			state.name = action.payload.name;
 			state.email = action.payload.email;
 			state.phone = action.payload.phone;
-			state.image = action.payload.image;
+			state.image =
+				action.payload.image ||
+				'https://res.cloudinary.com/dolttvkme/image/upload/v1739084572/custom-avatar_llfgxl.png';
 			state.role = action.payload.role;
 			state.token = action.payload.token;
 		},

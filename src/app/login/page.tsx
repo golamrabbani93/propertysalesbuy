@@ -10,35 +10,46 @@ import PSBForm from '../components/form/PSBForm';
 import PSBInput from '../components/form/PSBInput';
 import {FieldValues} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {registerSchema} from '@/schemas/register.schema';
+import {loginSchema} from '@/schemas/register.schema';
 import {catchAsync} from '@/utils/catchAsync';
-import {useUserRegisterMutation} from '@/redux/features/auth/authManagementApi';
-import hashPassword from '@/utils/hashPassword';
+import {useUserLoginMutation} from '@/redux/features/auth/authManagementApi';
 import {toast} from 'sonner';
 import {setToken} from '@/services/token/getToken';
 import {useAppDispatch} from '@/redux/hooks';
 import {setUser} from '@/redux/features/auth/authSlice';
-import {useGetAllUsersQuery} from '@/redux/features/user/userManagementApi';
 import {TUser} from '@/types/user.types';
+import {FetchBaseQueryError} from '@reduxjs/toolkit/query';
 export default function Page() {
-	const [createUser, {isLoading, error}] = useUserRegisterMutation();
-	const {data: AllUsers, isLoading: isLoadingUsers} = useGetAllUsersQuery('');
+	const [makeLogin, {isLoading}] = useUserLoginMutation();
+	// Handle form submission
 	const dispatch = useAppDispatch();
 	// Handle form submission
 	const handleSubmit = (data: FieldValues, methods: any) => {
 		catchAsync(async () => {
-			if (AllUsers?.find((user: TUser) => user.email === data.email)) {
-				toast.error('Email already exists');
-				return;
-			}
-			const hashedPassword = await hashPassword(data.password);
-			const result = await createUser({...data, password: hashedPassword});
-			const token = await setToken(result?.data);
+			const loginData = {email: data.email, password: data.password};
+			const result = await makeLogin(loginData);
+			console.log('🚀🚀 ~ handleSubmit ~ result:', result);
+			const token = await setToken(result?.data as TUser);
+
+			const isFetchBaseQueryError = (err: unknown): err is FetchBaseQueryError =>
+				typeof err === 'object' && err !== null && 'data' in err;
+
 			if (result.error) {
-				toast.error('Registration failed');
+				// Narrow to FetchBaseQueryError when possible and extract a sensible message
+				if (isFetchBaseQueryError(result.error)) {
+					const errData = result.error.data;
+					const message =
+						typeof errData === 'string'
+							? errData
+							: (errData && (errData as any).message) || JSON.stringify(errData);
+					toast.error(message);
+				} else {
+					// Fallback for SerializedError or unknown shapes
+					toast.error((result.error as any).message ?? 'An error occurred');
+				}
 			} else {
 				dispatch(setUser({...result?.data, token: token}));
-				toast.success('User Registered successfully');
+				toast.success('User Logged in successfully');
 				methods.reset();
 			}
 		});
@@ -186,74 +197,67 @@ export default function Page() {
 												</span>
 											</Link>
 										</div>
-										<h4 className="fs-2">Create Account On Propertysalesbuy</h4>
+										<h4 className="fs-2">Login Propertysalesbuy</h4>
 									</div>
-									<PSBForm onSubmit={handleSubmit} resolver={zodResolver(registerSchema)}>
-										<div className="row">
-											<div className="col-lg-6 col-md-6">
-												<div className="form-group mb-3">
-													<PSBInput
-														type="text"
-														label="Full Name"
-														name="name"
-														placeholder="Enter Full Name"
-														disabled={isLoadingUsers}
-													/>
-												</div>
-											</div>
+									<PSBForm onSubmit={handleSubmit} resolver={zodResolver(loginSchema)}>
+										<div className="form-floating mb-3">
+											<PSBInput
+												type="email"
+												placeholder="Email Address"
+												name="email"
+												label="Email Address"
+											/>
+										</div>
 
-											<div className="col-lg-6 col-md-6 mb-3">
-												<div className="form-group">
-													<PSBInput
-														type="email"
-														label="Email Address"
-														name="email"
-														placeholder="Enter Email Address"
-														disabled={isLoadingUsers}
-													/>
-												</div>
-											</div>
+										<div className="form-floating mb-3">
+											<PSBInput
+												type="password"
+												placeholder="Password"
+												name="password"
+												label="Password"
+											/>
+										</div>
 
-											<div className="col-lg-6 col-md-6 mb-3">
-												<div className="form-group">
-													<PSBInput
-														type="text"
-														label="Phone"
-														name="phone"
-														placeholder="Enter Phone"
-														disabled={isLoadingUsers}
-													/>
+										<div className="form-group mb-3">
+											<div className="d-flex align-items-center justify-content-between">
+												<div className="flex-shrink-0 flex-first">
+													<div className="form-check form-check-inline">
+														<input
+															className="form-check-input"
+															type="checkbox"
+															id="save-pass"
+															value="option1"
+														/>
+														<label className="form-check-label" htmlFor="save-pass">
+															Save Password
+														</label>
+													</div>
 												</div>
-											</div>
-
-											<div className="col-lg-6 col-md-6 mb-3">
-												<div className="form-group">
-													<PSBInput
-														disabled={isLoadingUsers}
-														type="password"
-														label="Password"
-														name="password"
-														placeholder="******"
-													/>
+												<div className="flex-shrink-0 flex-first">
+													<Link href="#" className="link fw-medium">
+														Forgot Password?
+													</Link>
 												</div>
 											</div>
 										</div>
+
 										<div className="form-group">
 											<button
 												type="submit"
-												className="btn btn-primary full-width fw-medium"
-												disabled={isLoading || isLoadingUsers}
+												className="btn btn-lg btn-primary fw-medium full-width rounded-2"
 											>
-												{isLoading ? (
-													'Creating Account... '
-												) : (
-													<>
-														Create Account<i className="fa-solid fa-arrow-right-long ms-2"></i>
-													</>
-												)}
+												{isLoading ? 'Logging In...' : 'Log In'}
 											</button>
 										</div>
 									</PSBForm>
+								</div>
+								<div className="text-center">
+									<p className="mt-4">
+										Have't Any Account?{' '}
+										<Link href="/create-account" className="link fw-medium">
+											Acreate An Account
+										</Link>
+									</p>
 								</div>
 								{/* <div className="modal-divider">
 									<span>Or SignUp via</span>
@@ -272,14 +276,6 @@ export default function Page() {
 										</li>
 									</ul>
 								</div> */}
-								<div className="text-center">
-									<p className="mt-4">
-										Already have an account?{' '}
-										<Link href="/login" className="link fw-medium">
-											Login
-										</Link>
-									</p>
-								</div>
 							</div>
 						</div>
 					</div>

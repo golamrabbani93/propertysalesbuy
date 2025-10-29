@@ -8,6 +8,19 @@ import {TiSocialGooglePlus, TiSocialFacebook} from 'react-icons/ti';
 
 import {navProperty} from '../../data/data';
 import Image from 'next/image';
+import PSBForm from '../form/PSBForm';
+import PSBInput from '../form/PSBInput';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {loginSchema} from '@/schemas/register.schema';
+import {useAppDispatch} from '@/redux/hooks';
+import {FieldValues} from 'react-hook-form';
+import {catchAsync} from '@/utils/catchAsync';
+import {useUserLoginMutation} from '@/redux/features/auth/authManagementApi';
+import {toast} from 'sonner';
+import {setUser} from '@/redux/features/auth/authSlice';
+import {setToken} from '@/services/token/getToken';
+import {TUser} from '@/types/user.types';
+import {FetchBaseQueryError} from '@reduxjs/toolkit/query';
 
 export default function Navbar({transparent}: {transparent: any}) {
 	const [activeMenu, setActiveMenu] = useState<{[key: string]: {[key: string]: boolean}}>({});
@@ -16,7 +29,7 @@ export default function Navbar({transparent}: {transparent: any}) {
 	const [login, setLogin] = useState<boolean>(false);
 	const [property, setProperty] = useState<boolean>(false);
 	const [activeTab, setActiveTab] = useState<number>(1);
-
+	const [makeLogin, {isLoading}] = useUserLoginMutation();
 	let [scroll, setScroll] = useState<boolean>(false);
 
 	const location = usePathname();
@@ -49,7 +62,39 @@ export default function Navbar({transparent}: {transparent: any}) {
 			window.removeEventListener('resize', handleResize);
 		};
 	}, [windowWidth]);
+	//form submission handler
+	const dispatch = useAppDispatch();
+	// Handle form submission
+	const handleSubmit = (data: FieldValues, methods: any) => {
+		catchAsync(async () => {
+			const loginData = {email: data.email, password: data.password};
+			const result = await makeLogin(loginData);
+			console.log('🚀🚀 ~ handleSubmit ~ result:', result);
+			const token = await setToken(result?.data as TUser);
 
+			const isFetchBaseQueryError = (err: unknown): err is FetchBaseQueryError =>
+				typeof err === 'object' && err !== null && 'data' in err;
+
+			if (result.error) {
+				// Narrow to FetchBaseQueryError when possible and extract a sensible message
+				if (isFetchBaseQueryError(result.error)) {
+					const errData = result.error.data;
+					const message =
+						typeof errData === 'string'
+							? errData
+							: (errData && (errData as any).message) || JSON.stringify(errData);
+					toast.error(message);
+				} else {
+					// Fallback for SerializedError or unknown shapes
+					toast.error((result.error as any).message ?? 'An error occurred');
+				}
+			} else {
+				dispatch(setUser({...result?.data, token: token}));
+				toast.success('User Logged in successfully');
+				methods.reset();
+			}
+		});
+	};
 	return (
 		<>
 			<div
@@ -121,11 +166,10 @@ export default function Navbar({transparent}: {transparent: any}) {
 							<ul className="nav-menu nav-menu-social align-to-right d-none d-lg-inline-flex">
 								<li>
 									<Link
-										href="#"
+										href="/login"
 										data-bs-toggle="modal"
 										data-bs-target="#login"
 										className="fw-medium text-muted-2"
-										onClick={() => setLogin(!login)}
 									>
 										<span className="svg-icon svg-icon-2hx me-1">
 											<svg
@@ -240,7 +284,7 @@ export default function Navbar({transparent}: {transparent: any}) {
 									</svg>
 								</span>
 							</span>
-							<div className="modal-body">
+							{/* <div className="modal-body">
 								<h4 className="modal-header-title">Log In</h4>
 								<div className="d-flex align-items-center justify-content-center mb-3">
 									<span className="svg-icon text-primary svg-icon-2hx">
@@ -289,7 +333,7 @@ export default function Navbar({transparent}: {transparent: any}) {
 													/>
 												</clipPath>
 											</defs>
-											<g clip-path="url(#90d2711491)">
+											<g clipPath="url(#90d2711491)">
 												<path
 													fill="#ffffff"
 													d="M 0 0 L 37.007812 0 L 37.007812 37.007812 L 0 37.007812 Z M 0 0 "
@@ -321,9 +365,9 @@ export default function Navbar({transparent}: {transparent: any}) {
 												fillOpacity="1"
 												fillRule="nonzero"
 											/>
-											<g clip-path="url(#2ff4306197)">
+											<g clipPath="url(#2ff4306197)">
 												<g transform="matrix(1, 0, 0, 1, 11, 4)">
-													<g clip-path="url(#72a9c90323)">
+													<g clipPath="url(#72a9c90323)">
 														<g fill="#0256a5" fillOpacity="1">
 															<g transform="translate(0.488989, 25.801696)">
 																<g>
@@ -334,7 +378,7 @@ export default function Navbar({transparent}: {transparent: any}) {
 													</g>
 												</g>
 											</g>
-											<g clip-path="url(#91f2c0fc62)">
+											<g clipPath="url(#91f2c0fc62)">
 												<path
 													fill="#64dbff"
 													d="M 26.3125 34.589844 C 26.175781 34.664062 26.035156 34.734375 25.894531 34.796875 C 19.171875 37.945312 10.398438 33.339844 6.300781 24.519531 C 2.199219 15.695312 4.324219 5.996094 11.046875 2.851562 C 11.1875 2.785156 11.332031 2.722656 11.472656 2.660156 C 5.082031 6.007812 3.128906 15.488281 7.144531 24.125 C 11.15625 32.761719 19.648438 37.351562 26.3125 34.589844 Z M 26.3125 34.589844 "
@@ -342,7 +386,7 @@ export default function Navbar({transparent}: {transparent: any}) {
 													fillRule="nonzero"
 												/>
 											</g>
-											<g clip-path="url(#9095a23c6f)">
+											<g clipPath="url(#9095a23c6f)">
 												<path
 													fill="#00b7ff"
 													d="M 32.550781 24.082031 C 32.050781 28.242188 30.03125 31.675781 26.714844 33.230469 C 20.699219 36.042969 12.707031 31.609375 8.855469 23.324219 C 5.007812 15.039062 6.757812 6.042969 12.773438 3.226562 C 16.089844 1.675781 20.011719 2.332031 23.503906 4.621094 C 20.660156 3.113281 17.601562 2.796875 14.96875 4.03125 C 13.714844 4.617188 12.667969 5.503906 11.839844 6.613281 C 11.546875 7.003906 11.285156 7.421875 11.046875 7.863281 C 9.066406 11.578125 9.070312 16.992188 11.445312 22.109375 C 13.824219 27.226562 17.957031 30.710938 22.066406 31.574219 C 22.554688 31.675781 23.042969 31.742188 23.527344 31.769531 C 24.90625 31.847656 26.257812 31.609375 27.511719 31.023438 C 30.148438 29.792969 31.871094 27.238281 32.550781 24.082031 Z M 32.550781 24.082031 "
@@ -350,7 +394,7 @@ export default function Navbar({transparent}: {transparent: any}) {
 													fillRule="nonzero"
 												/>
 											</g>
-											<g clip-path="url(#8ccb8b3028)">
+											<g clipPath="url(#8ccb8b3028)">
 												<path
 													fill="#00ade2"
 													d="M 29.972656 13.441406 C 33.246094 20.488281 31.511719 28.25 26.101562 30.78125 C 25.960938 30.847656 25.8125 30.910156 25.667969 30.96875 C 30.742188 28.238281 32.296875 20.703125 29.109375 13.84375 C 25.921875 6.988281 19.171875 3.339844 13.824219 5.484375 C 13.964844 5.410156 14.105469 5.339844 14.25 5.269531 C 19.660156 2.738281 26.699219 6.398438 29.972656 13.441406 Z M 29.972656 13.441406 "
@@ -362,15 +406,23 @@ export default function Navbar({transparent}: {transparent: any}) {
 									</span>
 								</div>
 								<div className="login-form">
-									<form>
+									<PSBForm onSubmit={handleSubmit} resolver={zodResolver(loginSchema)}>
 										<div className="form-floating mb-3">
-											<input type="email" className="form-control" placeholder="name@example.com" />
-											<label>Email address</label>
+											<PSBInput
+												type="email"
+												placeholder="Email Address"
+												name="email"
+												label="Email Address"
+											/>
 										</div>
 
 										<div className="form-floating mb-3">
-											<input type="password" className="form-control" placeholder="Password" />
-											<label>Password</label>
+											<PSBInput
+												type="password"
+												placeholder="Password"
+												name="password"
+												label="Password"
+											/>
 										</div>
 
 										<div className="form-group mb-3">
@@ -398,39 +450,15 @@ export default function Navbar({transparent}: {transparent: any}) {
 
 										<div className="form-group">
 											<button
-												type="button"
+												type="submit"
 												className="btn btn-lg btn-primary fw-medium full-width rounded-2"
 											>
-												LogIn
+												{isLoading ? 'Logging In...' : 'Log In'}
 											</button>
 										</div>
-									</form>
+									</PSBForm>
 								</div>
-								<div className="modal-divider">
-									<span>Or login via</span>
-								</div>
-								<div className="social-login mb-3">
-									<ul>
-										<li>
-											<Link href="#" className="btn connect-fb">
-												<TiSocialFacebook
-													className="ti-facebook"
-													style={{width: '25px', height: '25px'}}
-												/>
-												Facebook
-											</Link>
-										</li>
-										<li>
-											<Link href="#" className="btn connect-google">
-												<TiSocialGooglePlus
-													className="ti-google"
-													style={{width: '25px', height: '25px'}}
-												/>
-												Google+
-											</Link>
-										</li>
-									</ul>
-								</div>
+
 								<div className="text-center">
 									<p className="mt-4">
 										Have't Any Account?{' '}
@@ -439,7 +467,7 @@ export default function Navbar({transparent}: {transparent: any}) {
 										</Link>
 									</p>
 								</div>
-							</div>
+							</div> */}
 						</div>
 					</div>
 				</div>

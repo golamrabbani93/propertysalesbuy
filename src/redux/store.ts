@@ -39,7 +39,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
 	key: 'root',
 	storage,
-	whitelist: ['wishlistJobs', 'user', 'language'], // Only persist these slices
+	whitelist: ['auth'], // Only persist these slices
 };
 
 // Create a persisted reducer
