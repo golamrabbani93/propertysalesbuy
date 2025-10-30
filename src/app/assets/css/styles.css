@@ -11494,8 +11494,8 @@ ul.packages-lists-list li {
 .sd-list-left {
   flex: 1;
   max-width: 240px;
-  height: 180px;
-  max-height: 180px;
+  /* height: 180px;
+  max-height: 180px; */
 }
 
 .sd-list-left img {
