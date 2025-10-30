@@ -2,7 +2,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: process.env.NEXT_PUBLIC_API_URL,
-	prepareHeaders: async (headers, {getState}) => {
+	prepareHeaders: async (headers) => {
 		const token = process.env.NEXT_PUBLIC_TOKEN;
 		if (token) {
 			headers.set('Authorization', `Token ${token}`);
@@ -14,6 +14,6 @@ const baseQuery = fetchBaseQuery({
 export const baseApi = createApi({
 	reducerPath: 'baseApi',
 	baseQuery,
-	tagTypes: ['auth', 'user'],
-	endpoints: (builder) => ({}),
+	tagTypes: ['auth', 'user', 'property'],
+	endpoints: () => ({}),
 });
