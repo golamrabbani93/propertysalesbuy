@@ -7,10 +7,10 @@ export const PropertiesSchema = z.object({
 			label: z.string(),
 			value: z.string(),
 		})
-		.optional()
-		.refine((data) => data?.value, {
-			message: 'Please select a valid Status',
-		}),
+		.optional(),
+	// .refine((data) => data?.value, {
+	// 	message: 'Please select a valid Status',
+	// }),
 	property_type: z
 		.object({
 			label: z.string(),
