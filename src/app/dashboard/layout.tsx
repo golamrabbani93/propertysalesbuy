@@ -10,7 +10,6 @@ import ScrollToTop from '../components/scroll-to-top';
 
 export default function Page({children}: {children: React.ReactNode}) {
 	let [show, setShow] = useState<boolean>(false);
-	console.log('🚀🚀 ~ Page ~ show:', show);
 	return (
 		<>
 			<UserNav />

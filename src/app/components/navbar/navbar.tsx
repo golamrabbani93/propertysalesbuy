@@ -2,36 +2,26 @@
 import React, {useState, useEffect} from 'react';
 import Link from 'next/link';
 import {usePathname, useRouter} from 'next/navigation';
-
-import {FiChevronDown} from 'react-icons/fi';
-import {TiSocialGooglePlus, TiSocialFacebook} from 'react-icons/ti';
-
 import {navProperty} from '../../data/data';
 import Image from 'next/image';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
-import {FieldValues} from 'react-hook-form';
-import {catchAsync} from '@/utils/catchAsync';
-import {useUserLoginMutation} from '@/redux/features/auth/authManagementApi';
 import {toast} from 'sonner';
-import {clearUser, selectUser, setUser} from '@/redux/features/auth/authSlice';
-import {removeToken, setToken} from '@/services/token/getToken';
-import {TUser} from '@/types/user.types';
-import {FetchBaseQueryError} from '@reduxjs/toolkit/query';
+import {clearUser, selectUser} from '@/redux/features/auth/authSlice';
+import {removeToken} from '@/services/token/getToken';
 
 export default function Navbar({transparent}: {transparent: any}) {
-	const [activeMenu, setActiveMenu] = useState<{[key: string]: {[key: string]: boolean}}>({});
 	const [windowWidth, setWindowWidth] = useState(0);
 	const [toggle, setIsToggle] = useState<boolean>(false);
 	const [login, setLogin] = useState<boolean>(false);
 	const [property, setProperty] = useState<boolean>(false);
 	const [activeTab, setActiveTab] = useState<number>(1);
-	const [makeLogin, {isLoading}] = useUserLoginMutation();
 	let [scroll, setScroll] = useState<boolean>(false);
 	const user = useAppSelector(selectUser);
 	const location = usePathname();
 	const current = location;
 	const [userMenu, setUserMenu] = useState<boolean>(false);
 	const navigate = useRouter();
+
 	useEffect(() => {
 		if (typeof window === 'undefined') return;
 		window.scrollTo(0, 0);
@@ -44,12 +34,13 @@ export default function Navbar({transparent}: {transparent: any}) {
 			}
 		};
 
-		if (typeof window !== 'undefined') {
-			setWindowWidth(window.innerWidth);
-		}
 		const handleResize = () => {
 			setWindowWidth(window.innerWidth);
 		};
+
+		if (typeof window !== 'undefined') {
+			handleResize(); // Set initial window width
+		}
 
 		window.addEventListener('scroll', handlerScroll);
 		window.addEventListener('resize', handleResize);
@@ -61,36 +52,7 @@ export default function Navbar({transparent}: {transparent: any}) {
 	}, [windowWidth]);
 	//form submission handler
 	const dispatch = useAppDispatch();
-	// Handle form submission
-	const handleSubmit = (data: FieldValues, methods: any) => {
-		catchAsync(async () => {
-			const loginData = {email: data.email, password: data.password};
-			const result = await makeLogin(loginData);
-			const token = await setToken(result?.data as TUser);
 
-			const isFetchBaseQueryError = (err: unknown): err is FetchBaseQueryError =>
-				typeof err === 'object' && err !== null && 'data' in err;
-
-			if (result.error) {
-				// Narrow to FetchBaseQueryError when possible and extract a sensible message
-				if (isFetchBaseQueryError(result.error)) {
-					const errData = result.error.data;
-					const message =
-						typeof errData === 'string'
-							? errData
-							: (errData && (errData as any).message) || JSON.stringify(errData);
-					toast.error(message);
-				} else {
-					// Fallback for SerializedError or unknown shapes
-					toast.error((result.error as any).message ?? 'An error occurred');
-				}
-			} else {
-				dispatch(setUser({...result?.data, token: token}));
-				toast.success('User Logged in successfully');
-				methods.reset();
-			}
-		});
-	};
 	const userLogout = async () => {
 		dispatch(clearUser());
 		await removeToken();
@@ -98,6 +60,9 @@ export default function Navbar({transparent}: {transparent: any}) {
 		setUserMenu(!userMenu);
 		toast.success('Logged out successfully');
 	};
+	if (location.startsWith('/dashboard')) {
+		return null;
+	}
 	return (
 		<>
 			<div

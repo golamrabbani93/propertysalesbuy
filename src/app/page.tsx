@@ -8,7 +8,6 @@ import ClientOne from './components/client-one';
 import AppDownload from './components/app-download';
 import FooterTop from './components/footer-top';
 import ScrollToTop from './components/scroll-to-top';
-import Navbar from './components/navbar/navbar';
 import Footer from './components/footer';
 import {Metadata} from 'next';
 export const metadata: Metadata = {
@@ -18,8 +17,6 @@ export const metadata: Metadata = {
 export default function Page() {
 	return (
 		<>
-			<Navbar transparent={false} />
-
 			<div
 				className="image-bottom hero-banner bg-primary"
 				style={{backgroundImage: `url('/img/banner.svg')`, backgroundRepeat: 'no-repeat'}}

@@ -5,6 +5,9 @@ import './assets/css/colors.css';
 import Providers from '@/redux/Providers';
 import {Toaster} from 'sonner';
 import MobileNav from './components/navbar/MobileNav';
+import Navbar from './components/navbar/navbar';
+import React from 'react';
+// const Navbar = dynamic(() => import('./components/navbar/navbar'), {ssr: false});
 export const metadata: Metadata = {
 	title: 'Home - Propertysalesbuy',
 	description: 'Bangladesh Flat, House & Apartment Rental Platform',
@@ -18,7 +21,10 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className="blue-skin position-relative">
-				<Providers>{children}</Providers>
+				<Providers>
+					<Navbar transparent={false} />
+					{children}
+				</Providers>
 				<MobileNav />
 				<div
 					style={{

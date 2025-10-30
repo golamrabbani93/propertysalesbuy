@@ -32,8 +32,6 @@ export default function Page() {
 
 	return (
 		<>
-			<Navbar transparent={false} />
-
 			<div className="page-title">
 				<div className="container">
 					<div className="row">

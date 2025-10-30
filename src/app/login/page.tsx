@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Navbar from '../components/navbar/navbar';
 import FooterTop from '../components/footer-top';
 import Footer from '../components/footer';
 import ScrollToTop from '../components/scroll-to-top';
@@ -18,7 +17,6 @@ import {setToken} from '@/services/token/getToken';
 import {useAppDispatch} from '@/redux/hooks';
 import {setUser} from '@/redux/features/auth/authSlice';
 import {TUser} from '@/types/user.types';
-import {FetchBaseQueryError} from '@reduxjs/toolkit/query';
 import {useRouter} from 'next/navigation';
 export default function Page() {
 	const [makeLogin, {isLoading}] = useUserLoginMutation();
@@ -27,40 +25,26 @@ export default function Page() {
 	const dispatch = useAppDispatch();
 	// Handle form submission
 	const handleSubmit = (data: FieldValues, methods: any) => {
+		const toastID = toast.loading('Logging Processing');
 		catchAsync(async () => {
 			const loginData = {email: data.email, password: data.password};
 			const result = await makeLogin(loginData);
 			console.log('🚀🚀 ~ handleSubmit ~ result:', result);
-			const token = await setToken(result?.data as TUser);
-
-			const isFetchBaseQueryError = (err: unknown): err is FetchBaseQueryError =>
-				typeof err === 'object' && err !== null && 'data' in err;
-
-			if (result.error) {
+			if (result?.error) {
+				toast.error('Please Provide Valid User Information', {id: toastID});
+			}
+			if (result?.data?.id) {
+				const token = await setToken(result?.data as TUser);
 				// Narrow to FetchBaseQueryError when possible and extract a sensible message
-				if (isFetchBaseQueryError(result.error)) {
-					const errData = result.error.data;
-					const message =
-						typeof errData === 'string'
-							? errData
-							: (errData && (errData as any).message) || JSON.stringify(errData);
-					toast.error(message);
-				} else {
-					// Fallback for SerializedError or unknown shapes
-					toast.error((result.error as any).message ?? 'An error occurred');
-				}
-			} else {
 				dispatch(setUser({...result?.data, token}));
 				router.push('/dashboard');
-				toast.success('User Logged in successfully');
+				toast.success('User Logged in successfully', {id: toastID});
 				methods.reset();
 			}
 		});
 	};
 	return (
 		<>
-			<Navbar transparent={false} />
-
 			<div className="page-title">
 				<div className="container">
 					<div className="row">
@@ -256,7 +240,7 @@ export default function Page() {
 								</div>
 								<div className="text-center">
 									<p className="mt-4">
-										Have't Any Account?{' '}
+										Have&apos;t Any Account?{' '}
 										<Link href="/create-account" className="link fw-medium">
 											Acreate An Account
 										</Link>

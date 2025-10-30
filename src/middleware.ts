@@ -11,7 +11,6 @@ export async function middleware(request: NextRequest) {
 	const {pathname} = request.nextUrl;
 
 	const user = await getCurrentUser(); // pass request if needed for cookies
-	console.log('🚀🚀 ~ middleware ~ user:', user);
 
 	// 1️⃣ Allow public routes
 	if (publicRoutes.some((route) => pathname.startsWith(route))) {
