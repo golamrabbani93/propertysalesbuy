@@ -4,15 +4,13 @@ import React from 'react';
 import {useFormContext} from 'react-hook-form';
 
 interface PSBInputProps {
-	type: string;
 	label: string;
 	name: string;
 	placeholder?: string;
 	isReadOnly?: boolean;
 	disabled?: boolean;
 }
-export default function PSBInput({
-	type,
+export default function PSBTextArea({
 	label,
 	name,
 	isReadOnly = false,
@@ -27,15 +25,13 @@ export default function PSBInput({
 	return (
 		<div className="mb-4">
 			<label className="mb-2">{label}</label>
-			<input
+			<textarea
 				id={name}
 				{...register(name)}
-				type={type}
 				placeholder={placeholder}
 				readOnly={isReadOnly}
 				disabled={disabled}
 				className={`form-control`}
-				style={disabled ? {backgroundColor: '#e9ecef', cursor: 'not-allowed'} : {}}
 			/>
 			{errors[name]?.message && (
 				<span className="text-danger mt-1" style={{fontSize: '12px'}}>

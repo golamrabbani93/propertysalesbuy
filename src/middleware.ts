@@ -4,7 +4,7 @@ import {getCurrentUser} from './services/token/getToken';
 const publicRoutes = ['/login', '/register'];
 
 const roleBasedRoutes: Record<string, RegExp[]> = {
-	user: [/^\/dashboard/],
+	user: [/^\/dashboard/, /^\/submit-property/],
 };
 
 export async function middleware(request: NextRequest) {

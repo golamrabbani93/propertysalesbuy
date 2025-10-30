@@ -1,0 +1,50 @@
+.btnm {
+  font-family: inherit;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 5px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  user-select: none;
+  font-size: 10px;
+  height: 40px;
+
+}
+
+.btnm-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btnm-primary:hover,
+.btnm-primary:focus {
+  background-color: #0056b3 !important;
+  outline: none;
+}
+
+.btnm-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btnm-secondary:hover,
+.btnm-secondary:focus {
+  background-color: #565e64;
+  outline: none;
+}
+
+.btnm-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btnm-danger:hover,
+.btnm-danger:focus {
+  background-color: #a71d2a;
+  outline: none;
+}
