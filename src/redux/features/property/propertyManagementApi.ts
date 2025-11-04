@@ -35,7 +35,7 @@ const propertyManagementApi = baseApi.injectEndpoints({
 
 		// 🟢 Update an existing property
 		updateProperty: builder.mutation({
-			query: ({id, ...data}) => ({
+			query: ({id, data}) => ({
 				url: `PSBProperties/${id}/`,
 				method: 'PUT',
 				body: data,

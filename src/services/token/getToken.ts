@@ -45,7 +45,7 @@ export const getCurrentUser = async () => {
 		if (
 			userInformation &&
 			userInformation.role === decoded.role &&
-			userInformation.email === decoded.email
+			userInformation.id === decoded.id
 		) {
 			return userInformation; // return user object
 		}

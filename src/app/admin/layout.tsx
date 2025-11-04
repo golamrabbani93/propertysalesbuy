@@ -2,18 +2,17 @@
 import React, {useState} from 'react';
 import Link from 'next/link';
 
-import UserNav from '../components/navbar/user-nav';
-import AdminSidebar from '../components/user-sidebar';
 import FooterTop from '../components/footer-top';
 import Footer from '../components/footer';
 import ScrollToTop from '../components/scroll-to-top';
-import UserSidebar from '../components/user-sidebar';
+import AdminSidebar from '../components/admin-sidebar';
+import AdminNav from '../components/navbar/admin-nav';
 
 export default function Page({children}: {children: React.ReactNode}) {
 	let [show, setShow] = useState<boolean>(false);
 	return (
 		<>
-			<UserNav />
+			<AdminNav />
 
 			<div className="bg-light dashboard-padding">
 				<div className="container-fluid">
@@ -32,7 +31,7 @@ export default function Page({children}: {children: React.ReactNode}) {
 					</div>
 					<div className="row">
 						<div className="col-lg-3 col-md-12">
-							<UserSidebar show={show} setShow={setShow} />
+							<AdminSidebar show={show} setShow={setShow} />
 						</div>
 
 						<div className="col-lg-9 col-md-12">{children}</div>

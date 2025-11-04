@@ -1,5 +1,12 @@
 'use client';
 import React, {useState} from 'react';
+import Link from 'next/link';
+
+import UserNav from '../components/navbar/user-nav';
+import AdminSidebar from '../components/user-sidebar';
+import FooterTop from '../components/footer-top';
+import Footer from '../components/footer';
+import ScrollToTop from '../components/scroll-to-top';
 
 export default function Page() {
 	let [show, setShow] = useState<boolean>(false);

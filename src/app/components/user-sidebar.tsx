@@ -7,7 +7,7 @@ import {clearUser, selectUser} from '@/redux/features/auth/authSlice';
 import {removeToken} from '@/services/token/getToken';
 import {toast} from 'sonner';
 
-export default function AdminSidebar({show, setShow}: {show: any; setShow: any}) {
+export default function UserSidebar({show, setShow}: {show: any; setShow: any}) {
 	const dispatch = useAppDispatch();
 	const navigate = useRouter();
 	const user = useAppSelector(selectUser);
@@ -40,49 +40,44 @@ export default function AdminSidebar({show, setShow}: {show: any; setShow: any})
 					</div>
 					<div className="d-navigation">
 						<ul>
-							<li className={current === '/admin' ? 'active' : ''} onClick={() => setShow(!show)}>
-								<Link href="/admin">
+							<li
+								className={current === '/dashboard' ? 'active' : ''}
+								onClick={() => setShow(!show)}
+							>
+								<Link href="/dashboard">
 									<i className="fa-solid fa-gauge"></i>Dashboard
 								</Link>
 							</li>
 							<li
-								className={current === '/admin/my-profile' ? 'active' : ''}
+								className={current === '/dashboard/my-profile' ? 'active' : ''}
 								onClick={() => setShow(!show)}
 							>
-								<Link href="/admin/my-profile">
+								<Link href="/dashboard/my-profile">
 									<i className="fa-solid fa-address-card"></i>My Profile
 								</Link>
 							</li>
 
 							<li
-								className={current === '/admin/all-properties' ? 'active' : ''}
+								className={current === '/dashboard/my-property' ? 'active' : ''}
 								onClick={() => setShow(!show)}
 							>
-								<Link href="/admin/all-properties">
-									<i className="fa-solid fa-building-circle-check"></i>All Properties
-								</Link>
-							</li>
-							<li
-								className={current === '/admin/my-property' ? 'active' : ''}
-								onClick={() => setShow(!show)}
-							>
-								<Link href="/admin/my-property">
+								<Link href="/dashboard/my-property">
 									<i className="fa-solid fa-building-circle-check"></i>My Properties
 								</Link>
 							</li>
 							<li
-								className={current === '/admin/submit-property-dashboard' ? 'active' : ''}
+								className={current === '/dashboard/submit-property-dashboard' ? 'active' : ''}
 								onClick={() => setShow(!show)}
 							>
-								<Link href="/admin/submit-property-dashboard">
+								<Link href="/dashboard/submit-property-dashboard">
 									<i className="fa-solid fa-house"></i>Submit New Property
 								</Link>
 							</li>
 							<li
-								className={current === '/admin/change-password' ? 'active' : ''}
+								className={current === '/dashboard/change-password' ? 'active' : ''}
 								onClick={() => setShow(!show)}
 							>
-								<Link href="/admin/change-password">
+								<Link href="/dashboard/change-password">
 									<i className="fa-solid fa-unlock"></i>Change Password
 								</Link>
 							</li>

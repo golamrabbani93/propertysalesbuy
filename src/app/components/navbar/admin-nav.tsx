@@ -12,7 +12,7 @@ import {clearUser, selectUser} from '@/redux/features/auth/authSlice';
 import {removeToken} from '@/services/token/getToken';
 import {toast} from 'sonner';
 
-export default function UserNav() {
+export default function AdminNav() {
 	const [activeMenu, setActiveMenu] = useState<{[key: string]: {[key: string]: boolean}}>({});
 	const [windowWidth, setWindowWidth] = useState(0);
 	const [toggle, setIsToggle] = useState<boolean>(false);
@@ -162,22 +162,22 @@ export default function UserNav() {
 												id="showings"
 												style={{display: userMenu ? 'block' : 'none'}}
 											>
-												<Link href="/dashboard">
+												<Link href="/admin">
 													<i className="fa-solid fa-gauge"></i>Dashboard
 												</Link>
-												<Link href="/my-profile">
+												<Link href="/admin/my-profile">
 													<i className="fa-solid fa-address-card"></i>My Profile
 												</Link>
-												<Link href="/my-property">
+												<Link href="/admin/my-property">
 													<i className="fa-solid fa-building-circle-check"></i>My Property
 												</Link>
-												<Link href="/bookmark-list">
+												<Link href="/admin/bookmark-list">
 													<i className="fa-solid fa-bookmark"></i>Bookmarked Property
 												</Link>
-												<Link href="/submit-property-dashboard">
+												<Link href="/admin/submit-property-dashboard">
 													<i className="fa-solid fa-house"></i>Submit Property
 												</Link>
-												<Link href="/change-password">
+												<Link href="/admin/change-password">
 													<i className="fa-solid fa-unlock"></i>Change Passwords
 												</Link>
 												<Link href="#" onClick={userLogout}>
@@ -231,20 +231,20 @@ export default function UserNav() {
 												style={{display: userMenu ? 'block' : 'none'}}
 												onClick={() => setUserMenu(!userMenu)}
 											>
-												<Link href="/dashboard">
+												<Link href="/admin">
 													<i className="fa-solid fa-gauge"></i>Dashboard
 												</Link>
-												<Link href="/dashboard/my-profile">
+												<Link href="/admin/my-profile">
 													<i className="fa-solid fa-address-card"></i>My Profile
 												</Link>
-												<Link href="/dashboard/my-property">
+												<Link href="/admin/my-property">
 													<i className="fa-solid fa-building-circle-check"></i>My Property
 												</Link>
 
-												<Link href="/dashboard/submit-property-dashboard">
+												<Link href="/admin/submit-property-dashboard">
 													<i className="fa-solid fa-house"></i>Submit Property
 												</Link>
-												<Link href="/dashboard/change-password">
+												<Link href="/admin/change-password">
 													<i className="fa-solid fa-unlock"></i>Change Password
 												</Link>
 												<Link href="#" onClick={userLogout} style={{color: 'red'}}>

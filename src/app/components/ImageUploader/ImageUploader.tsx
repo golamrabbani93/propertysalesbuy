@@ -6,8 +6,9 @@ import Card, {CardContent} from './Card';
 
 export interface IUploadedImage {
 	id: string;
-	file: File;
+	file: File | null;
 	previewUrl: string;
+	name?: string;
 }
 
 interface ImageUploaderProps {
@@ -165,21 +166,25 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 							<Card key={image.id} className="image-card">
 								<CardContent className="card-content">
 									<div className="image-wrapper">
-										<img src={image.previewUrl} alt={image.file.name} className="image-preview" />
+										<img
+											src={image.previewUrl}
+											alt={image?.file?.name || image?.name}
+											className="image-preview"
+										/>
 										<button
 											className="remove-btn"
 											onClick={() => removeImage(image.id)}
-											aria-label={`Remove ${image.file.name}`}
+											aria-label={`Remove ${image?.file?.name || image?.name}`}
 											type="button"
 										>
 											&times;
 										</button>
 									</div>
 									<div className="image-info">
-										<p className="image-name" title={image.file.name}>
-											{image.file.name}
+										<p className="image-name" title={image?.file?.name || image?.name}>
+											{image?.file?.name || image?.name}
 										</p>
-										<p className="image-size">{(image.file.size / 1024).toFixed(1)} KB</p>
+										{/* <p className="image-size">{(image?.file?.size / 1024).toFixed(1)} KB</p> */}
 									</div>
 								</CardContent>
 							</Card>

@@ -15,7 +15,7 @@ import DashboardLoader from '@/app/components/Loader/DashboardLoader';
 export default function Page() {
 	const user = useAppSelector(selectUser);
 	const {data, isLoading} = useGetAllPropertiesQuery(undefined);
-	const userProperty = data?.filter((property: any) => property.user === user?.id) || [];
+
 	if (isLoading) {
 		return <DashboardLoader />;
 	}
@@ -28,8 +28,8 @@ export default function Page() {
 					</div>
 
 					<div className="row">
-						{userProperty?.length > 0 ? (
-							userProperty?.map((item: IProperty, index: number) => {
+						{data?.length > 0 ? (
+							data?.map((item: IProperty, index: number) => {
 								return <MyProperty key={index} item={item} />;
 							})
 						) : (

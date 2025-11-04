@@ -1,11 +1,14 @@
 'use client';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {PropertiesSchema} from '@/schemas/properties.schema';
 import {useAppSelector} from '@/redux/hooks';
 import {selectUser} from '@/redux/features/auth/authSlice';
 import {useGetMyProfileQuery} from '@/redux/features/user/userManagementApi';
-import {useCreatePropertyMutation} from '@/redux/features/property/propertyManagementApi';
+import {
+	useGetPropertyByIdQuery,
+	useUpdatePropertyMutation,
+} from '@/redux/features/property/propertyManagementApi';
 import {toast} from 'sonner';
 import {catchAsync} from '@/utils/catchAsync';
 import ImageUploader, {IUploadedImage} from '../ImageUploader/ImageUploader';
@@ -16,7 +19,7 @@ import {FieldValues} from 'react-hook-form';
 import PSBForm from '../form/PSBForm';
 import PropertySuccessModal from './PropertySuccessModal';
 
-export default function SubmitProperty() {
+export default function EditProperty({id}: {id: string}) {
 	// const [file, setFile] = useState('');
 	const [uploadedImages, setUploadedImages] = useState<IUploadedImage[]>([]);
 	// function handleChange(e: any) {
@@ -24,9 +27,12 @@ export default function SubmitProperty() {
 	// 	setFile(URL.createObjectURL(e.target.files[0]));
 	// }
 	const user = useAppSelector(selectUser);
-	const {data: userData, isLoading} = useGetMyProfileQuery(user?.id);
-	const [createProperty, {isLoading: uploadLoading}] = useCreatePropertyMutation();
+	const {data, isLoading} = useGetPropertyByIdQuery(id);
+	const {data: userData, isLoading: userLoading} = useGetMyProfileQuery(user?.id);
+	const [updateProperty, {isLoading: updateLoading}] = useUpdatePropertyMutation();
 	const [showModal, setShowModal] = useState(false);
+
+	const [defaultValues, setDefaultValues] = useState<any>(null);
 	const status = [
 		// {value: '1', label: 'For Rent'},
 		{value: 'for sell', label: 'For Sell'},
@@ -103,21 +109,18 @@ export default function SubmitProperty() {
 		{label: 'Servant Quarter', value: 'Servant Quarter'},
 	];
 
-	const handleSubmit = (data: FieldValues, method: any) => {
-		const toastId = toast.loading(
-			'Creating property... This may take a few moments to upload your images.',
-			{
-				style: {
-					background: '#fff3e0', // soft orange background
-					color: '#e65100', // dark orange text
-					fontWeight: '500',
-					fontSize: '14px',
-					borderRadius: '8px',
-					padding: '12px 20px',
-					boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
-				},
+	const handleSubmit = (data: FieldValues) => {
+		const toastId = toast.loading('Updating property..', {
+			style: {
+				background: '#fff3e0', // soft orange background
+				color: '#e65100', // dark orange text
+				fontWeight: '500',
+				fontSize: '14px',
+				borderRadius: '8px',
+				padding: '12px 20px',
+				boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
 			},
-		);
+		});
 		const newStatus = 'For Sell';
 		const newPropertyType = data.property_type?.value;
 		const newBeds = data.bedrooms?.value ? data.bedrooms.value : null;
@@ -149,6 +152,7 @@ export default function SubmitProperty() {
 
 		// append images to data
 		uploadedImages.forEach((image, index) => {
+			if (!image.file) return; // skip if no file (existing images)
 			formattedData[`image${index + 1}`] = image.file;
 		});
 
@@ -158,24 +162,51 @@ export default function SubmitProperty() {
 		}
 
 		catchAsync(async () => {
-			const res = await createProperty(formData);
-			if (res?.data?.id) {
+			const res = await updateProperty({id, data: formData}).unwrap();
+			if (res?.id) {
 				setShowModal(true);
-				toast.success('Property Create Complete', {id: toastId});
+				toast.success('Property Update Complete', {id: toastId});
 				setUploadedImages([]);
-				method.reset();
 			} else {
-				toast.error('Property Create Failed', {id: toastId});
+				toast.error('Property Update Failed', {id: toastId});
 			}
 		});
 	};
+
+	useEffect(() => {
+		if (!data) return;
+		const imageFields = ['image1', 'image2', 'image3', 'image4'];
+		const images = imageFields
+			.map((key) => data[key])
+			.filter(Boolean)
+			.map((url, index) => ({
+				id: Math.random().toString(36).substr(2, 9),
+				file: null,
+				previewUrl: url,
+				name: `image${index + 1}.jpg`,
+			}));
+		setUploadedImages(images);
+
+		setDefaultValues({
+			...data,
+			property_type: {value: data.property_type, label: data.property_type},
+			status: {value: data.status, label: data.status},
+			features: data.amenities,
+			bedrooms: {value: data.bedrooms, label: data.bedrooms},
+			bathrooms: {value: data.bathrooms, label: data.bathrooms},
+			name: data?.contact_information?.name || '',
+			email: data?.contact_information?.email || '',
+			phone: data?.contact_information?.phone || '',
+			// features: amenities.map((feature) => ({label: feature, value: feature})), // convert to select option format
+		});
+	}, [data, userData]);
 
 	return (
 		<>
 			<PSBForm
 				onSubmit={handleSubmit}
 				resolver={zodResolver(PropertiesSchema)}
-				defaultValues={userData}
+				defaultValues={defaultValues}
 			>
 				<div className="form-submit">
 					<h3>Basic Information</h3>
@@ -385,6 +416,7 @@ export default function SubmitProperty() {
 								className="form-check-input me-2"
 								name="aj-1"
 								type="checkbox"
+								defaultChecked={true}
 								required
 							/>
 							<label htmlFor="aj-1" className="form-check-label">
@@ -396,7 +428,7 @@ export default function SubmitProperty() {
 				</div>
 				<div className="form-group col-lg-12 col-md-12">
 					<button className="btn btn-primary fw-medium px-5" type="submit" disabled={isLoading}>
-						{uploadLoading ? 'Uploading...' : 'Submit Property'}
+						{updateLoading ? 'Uploading...' : 'Submit Property'}
 					</button>
 				</div>
 			</PSBForm>

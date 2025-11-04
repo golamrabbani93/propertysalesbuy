@@ -5,6 +5,7 @@ const publicRoutes = ['/login', '/register'];
 
 const roleBasedRoutes: Record<string, RegExp[]> = {
 	user: [/^\/dashboard/, /^\/submit-property/],
+	admin: [/^\/admin/, /^\/submit-property/],
 };
 
 export async function middleware(request: NextRequest) {
@@ -42,5 +43,12 @@ export async function middleware(request: NextRequest) {
 
 // Apply middleware to specific paths
 export const config = {
-	matcher: ['/dashboard/:path*', '/account/:path*', '/login', '/register', '/submit-property'],
+	matcher: [
+		'/dashboard/:path*',
+		'/account/:path*',
+		'/login',
+		'/register',
+		'/submit-property',
+		'/admin/:path*',
+	],
 };

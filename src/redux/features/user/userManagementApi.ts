@@ -13,7 +13,7 @@ const userManagementApi = baseApi.injectEndpoints({
 			transformResponse: (response) => response,
 		}),
 		updateMyProfile: builder.mutation({
-			query: ({id, ...data}) => {
+			query: ({id, data}) => {
 				console.log(data);
 				return {
 					url: `PSBUser/${id}/`,

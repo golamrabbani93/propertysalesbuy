@@ -60,7 +60,7 @@ export default function Navbar({transparent}: {transparent: any}) {
 		setUserMenu(!userMenu);
 		toast.success('Logged out successfully');
 	};
-	if (location.startsWith('/dashboard')) {
+	if (location.startsWith('/dashboard') || location.startsWith('/admin')) {
 		return null;
 	}
 	return (
@@ -149,22 +149,32 @@ export default function Navbar({transparent}: {transparent: any}) {
 												id="showings"
 												style={{display: userMenu ? 'block' : 'none'}}
 											>
-												<Link href="/dashboard">
+												<Link href={`${user?.role === 'admin' ? '/admin' : '/dashboard'}`}>
 													<i className="fa-solid fa-gauge"></i>Dashboard
 												</Link>
-												<Link href="/my-profile">
+												<Link
+													href={`${user?.role === 'admin' ? '/admin' : '/dashboard'}/my-profile`}
+												>
 													<i className="fa-solid fa-address-card"></i>My Profile
 												</Link>
-												<Link href="/my-property">
+												<Link
+													href={`${user?.role === 'admin' ? '/admin' : '/dashboard'}/my-property`}
+												>
 													<i className="fa-solid fa-building-circle-check"></i>My Property
 												</Link>
-												<Link href="/bookmark-list">
-													<i className="fa-solid fa-bookmark"></i>Bookmarked Property
-												</Link>
-												<Link href="/submit-property-dashboard">
+
+												<Link
+													href={`${
+														user?.role === 'admin' ? '/admin' : '/dashboard'
+													}/submit-property-dashboard`}
+												>
 													<i className="fa-solid fa-house"></i>Submit Property
 												</Link>
-												<Link href="/change-password">
+												<Link
+													href={`${
+														user?.role === 'admin' ? '/admin' : '/dashboard'
+													}/change-password`}
+												>
 													<i className="fa-solid fa-unlock"></i>Change Password
 												</Link>
 
