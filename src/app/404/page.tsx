@@ -1,16 +1,14 @@
-import React from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
-import Navbar from '../components/navbar/navbar'
-import FooterTop from '../components/footer-top'
-import Footer from '../components/footer'
+import Navbar from '../components/navbar/navbar';
+import FooterTop from '../components/footer-top';
+import Footer from '../components/footer';
 
 export default function NotFoundPage() {
 	return (
 		<>
-			<Navbar transparent={false} />
-
 			<section className="error-wrap">
 				<div className="container">
 					<div className="row justify-content-center">
