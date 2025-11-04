@@ -11,8 +11,10 @@ export default function Page() {
 				<div className="container">
 					<div className="row">
 						<div className="col-lg-12 col-md-12">
-							<h2 className="ipt-title">Submit Property</h2>
-							<span className="ipn-subtitle">Just Submit Your Property</span>
+							<h2 className="ipt-title">Sell Apartment</h2>
+							<span className="ipn-subtitle">
+								Please fill out the form below to submit your apartment for sale.
+							</span>
 						</div>
 					</div>
 				</div>
@@ -20,8 +22,6 @@ export default function Page() {
 
 			<section className="gray-simple">
 				<div className="container">
-					<div className="row"></div>
-
 					<div className="row">
 						<div className="col-lg-12 col-md-12">
 							<div className="submit-page">
