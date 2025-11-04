@@ -4,8 +4,8 @@ import {getCurrentUser} from './services/token/getToken';
 const publicRoutes = ['/login', '/register'];
 
 const roleBasedRoutes: Record<string, RegExp[]> = {
-	user: [/^\/dashboard/, /^\/submit-property/],
-	admin: [/^\/admin/, /^\/submit-property/],
+	user: [/^\/dashboard/, /^\/submit-property/, /^\/submit-land/],
+	admin: [/^\/admin/, /^\/submit-property/, /^\/submit-land/],
 };
 
 export async function middleware(request: NextRequest) {
@@ -50,5 +50,6 @@ export const config = {
 		'/register',
 		'/submit-property',
 		'/admin/:path*',
+		'/submit-land',
 	],
 };
