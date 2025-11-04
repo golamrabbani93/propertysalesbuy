@@ -11,11 +11,13 @@ import {useGetAllPropertiesQuery} from '@/redux/features/property/propertyManage
 import {IProperty} from '@/types/property.types';
 import MyProperty from '@/app/components/dashboard/property/MyProperty';
 import DashboardLoader from '@/app/components/Loader/DashboardLoader';
+import {usePathname} from 'next/navigation';
 
 export default function Page() {
 	const user = useAppSelector(selectUser);
 	const {data, isLoading} = useGetAllPropertiesQuery(undefined);
-
+	const pathname = usePathname();
+	console.log('🚀🚀 ~ Page ~ pathname:', pathname);
 	if (isLoading) {
 		return <DashboardLoader />;
 	}
@@ -24,7 +26,7 @@ export default function Page() {
 			<div className="container-fluid">
 				<div className="dashboard-wraper">
 					<div className="form-submit mb-4">
-						<h4>My Property</h4>
+						<h4>{pathname === '/admin/all-properties' ? 'All Properties' : 'My Property'}</h4>
 					</div>
 
 					<div className="row">
