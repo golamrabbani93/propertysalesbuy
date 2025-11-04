@@ -12,7 +12,6 @@ export default function Page({params}: {params: {id: string}}) {
 	let data = propertyData.find((item: any) => item.id === parseInt(params.id));
 	return (
 		<>
-			<Navbar transparent={false} />
 			<HomeSliderTwo />
 
 			<section className="gray-simple">
