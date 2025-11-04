@@ -29,7 +29,6 @@ export default function Page() {
 		catchAsync(async () => {
 			const loginData = {email: data.email, password: data.password};
 			const result = await makeLogin(loginData);
-			console.log('🚀🚀 ~ handleSubmit ~ result:', result);
 			if (result?.error) {
 				toast.error('Please Provide Valid User Information', {id: toastID});
 			}
