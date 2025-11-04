@@ -46,6 +46,7 @@ export default function PSBSelect({
 							isDisabled={isDisabled}
 							placeholder={placeholder}
 							className={`${isDisabled ? '!bg-gray-200' : ''} `}
+							value={field.value || (isMulti ? [] : null)} // <-- important for reset
 							onChange={(selectedOption) => {
 								field.onChange(selectedOption);
 							}}
