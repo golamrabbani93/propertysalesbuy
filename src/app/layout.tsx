@@ -24,8 +24,8 @@ export default function RootLayout({
 				<Providers>
 					<Navbar transparent={false} />
 					{children}
+					<MobileNav />
 				</Providers>
-				<MobileNav />
 				<div
 					style={{
 						position: 'absolute',
