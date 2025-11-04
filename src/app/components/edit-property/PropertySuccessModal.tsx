@@ -1,4 +1,6 @@
 'use client';
+import {selectUser} from '@/redux/features/auth/authSlice';
+import {useAppSelector} from '@/redux/hooks';
 import Link from 'next/link';
 import React from 'react';
 
@@ -9,7 +11,7 @@ interface PropertySuccessModalProps {
 
 const PropertySuccessModal: React.FC<PropertySuccessModalProps> = ({show, onClose}) => {
 	if (!show) return null;
-
+	const user = useAppSelector(selectUser);
 	return (
 		<div
 			className="modal fade show"
@@ -92,7 +94,10 @@ const PropertySuccessModal: React.FC<PropertySuccessModalProps> = ({show, onClos
 					</p>
 
 					{/* Close button */}
-					<Link href="/dashboard/my-property">
+					<Link
+						href={`/${user?.role === 'admin' ? 'admin' : 'dashboard'}/my-property`}
+						className="d-inline-block"
+					>
 						<button className="btn btn-primary rounded-2 px-4 fw-semibold" onClick={onClose}>
 							Close
 						</button>
