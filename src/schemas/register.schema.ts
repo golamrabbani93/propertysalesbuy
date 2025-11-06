@@ -14,6 +14,15 @@ export const registerSchema = z.object({
 		.string('Password is required')
 		.min(6, 'Password must be at least 6 characters')
 		.max(100, 'Password too long'),
+	user_type: z
+		.object({
+			label: z.string(),
+			value: z.string(),
+		})
+		.optional()
+		.refine((data) => data?.value, {
+			message: 'Please select a Selling Type',
+		}),
 });
 
 export const loginSchema = z.object({

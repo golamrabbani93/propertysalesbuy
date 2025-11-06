@@ -241,7 +241,7 @@ export default function Page() {
 									<p className="mt-4">
 										Have&apos;t Any Account?{' '}
 										<Link href="/create-account" className="link fw-medium">
-											Acreate An Account
+											Create An Account
 										</Link>
 									</p>
 								</div>
