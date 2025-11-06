@@ -7,12 +7,31 @@ import DetailSidebar from '../property/detail-sidebar';
 import PropertyDetail from '../property/property-detail';
 import ScrollToTop from '../scroll-to-top';
 import HomeSliderTwo from '../slider/home-slider-two';
-import {useGetPropertyByIdQuery} from '@/redux/features/property/propertyManagementApi';
+import {
+	useGetPropertyByIdQuery,
+	useUpdatePropertyMutation,
+} from '@/redux/features/property/propertyManagementApi';
+import {useUpdateMyProfileMutation} from '@/redux/features/user/userManagementApi';
+import {useEffect, useRef} from 'react';
 
 const SingleProperty = ({id}: {id: string}) => {
 	const {data: property} = useGetPropertyByIdQuery(id);
-	console.log('🚀🚀 ~ SingleProperty ~ property:', property);
 	let data = propertyData.find((item: any) => item.id === parseInt(id));
+	const hasUpdatedRef = useRef(false);
+	//update view count
+	const [updateView] = useUpdatePropertyMutation();
+	useEffect(() => {
+		const updateViewCount = async () => {
+			if (property && !hasUpdatedRef.current) {
+				const result = await updateView({
+					id: property.id,
+					data: {views: property.views + 1, title: property.title},
+				});
+				hasUpdatedRef.current = true; // mark as updated
+			}
+		};
+		updateViewCount();
+	}, [property]);
 	return (
 		<div>
 			<HomeSliderTwo data={property} />
@@ -26,6 +45,9 @@ const SingleProperty = ({id}: {id: string}) => {
 									<span className="label text-light bg-success text-uppercase">For Sell</span>
 									<span className="label text-white bg-primary text-uppercase ms-2">
 										{property?.property_type}
+									</span>
+									<span className="label bg-purple text-white text-capitalize ms-2">
+										Views: {property?.views}
 									</span>
 									<h3 className="mt-3">{property?.title}</h3>
 									<span>

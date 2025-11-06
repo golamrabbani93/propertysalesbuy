@@ -82,6 +82,9 @@ export default function ListPropertyThree({item}: {item: IProperty}) {
 									<h6 className="listing-info-price text-primary fs-4 mb-0">৳{item.price}</h6>
 								</div>
 							</div>
+							<span className="label bg-light-success text-success text-capitalize me-2">
+								Views: {item.views}
+							</span>
 							<div className="_card_list_flex">
 								<div className="_card_flex_01">
 									<h4 className="listing-name mt-3">
