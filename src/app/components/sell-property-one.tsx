@@ -44,17 +44,15 @@ export default function SellPropertyOne({
 									<div className="listing-detail-wrapper d-flex align-items-center justify-content-between">
 										<div className="listing-short-detail">
 											<div className="d-flex align-items-center">
-												{/* <span
-													className={`label ${
-														item.tag2 === 'For Rent' ? 'bg-light-success text-success' : ''
-													} ${
-														item.tag2 === 'For Sell' ? 'bg-light-danger text-danger' : ''
-													} d-inline-flex mb-1`}
-												>
-													{item.tag2}
-												</span> */}
 												<span
-													className={`label bg-light-purple text-purple d-inline-flex mb-1 text-capitalize`}
+													className={`label 
+														bg-light-danger text-danger
+													d-inline-flex mb-1`}
+												>
+													For Sell
+												</span>
+												<span
+													className={`label bg-light-purple text-purple d-inline-flex mb-1 text-capitalize ms-1`}
 												>
 													{item.property_type}
 												</span>
