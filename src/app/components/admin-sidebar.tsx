@@ -102,6 +102,14 @@ export default function AdminSidebar({show, setShow}: {show: any; setShow: any})
 									</Link>
 								</li>
 								<li
+									className={current === '/admin/all-users' ? 'active' : ''}
+									onClick={() => setShow(!show)}
+								>
+									<Link href="/admin/all-users">
+										<i className="fa-solid fa-users"></i>All Users
+									</Link>
+								</li>
+								<li
 									className={current === '/admin/change-password' ? 'active' : ''}
 									onClick={() => setShow(!show)}
 								>
