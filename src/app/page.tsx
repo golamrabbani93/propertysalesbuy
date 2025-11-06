@@ -80,7 +80,7 @@ export default async function Page() {
 					</div>
 					<PropertySlider propertyState={propertyState} />
 					<div className="row">
-						<div className="col-lg-12 col-md-12 col-sm-12 text-center mt-4">
+						<div className="col-lg-12 col-md-12 col-sm-12 text-center mt-5">
 							<Link href="/properties" className="btn btn-primary px-lg-5 rounded">
 								Browse More Properties
 							</Link>
@@ -94,15 +94,15 @@ export default async function Page() {
 					<div className="row justify-content-center">
 						<div className="col-lg-7 col-md-10 text-center">
 							<div className="sec-heading center">
-								<h2>Featured Property For Sale</h2>
+								<h2>Featured Land For Sell</h2>
 								<p>
-									Discover the latest properties for sale—premium, ready to own, and full of
-									potential. Find your dream home with confidence.
+									Discover the latest land for sale—premium, ready to own, and full of potential.
+									Find your dream land with confidence.
 								</p>
 							</div>
 						</div>
 					</div>
-					<SellPropertyOne border={false} />
+					<SellPropertyOne border={false} propertyState={propertyState} />
 					<div className="row">
 						<div className="col-lg-12 col-md-12 col-sm-12 text-center mt-4">
 							<Link href="/properties" className="btn btn-primary px-lg-5 rounded">

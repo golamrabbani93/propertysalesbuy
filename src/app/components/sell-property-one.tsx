@@ -3,25 +3,21 @@ import Link from 'next/link';
 
 import {propertyData} from '../data/data';
 import Image from 'next/image';
+import {IProperty} from '@/types/property.types';
 
-interface Property {
-	id: number;
-	image: string[];
-	tag: string[];
-	tag2: string;
-	type: string;
-	name: string;
-	loction: string;
-	size: string;
-	beds: string;
-	sqft: string;
-	value: string;
-}
-
-export default function SellPropertyOne({border}: {border: any}) {
+export default function SellPropertyOne({
+	propertyState,
+	border,
+}: {
+	propertyState: IProperty[];
+	border: any;
+}) {
+	const landProperties = propertyState.filter(
+		(prop) => prop.property_type === 'land' && prop.published,
+	);
 	return (
 		<div className="row list-layout">
-			{propertyData.slice(0, 4).map((item: Property, index: number) => {
+			{landProperties.slice(0, 4).map((item: IProperty, index: number) => {
 				return (
 					<div className="col-xl-6 col-lg-6 col-md-12" key={index}>
 						<div
@@ -31,20 +27,16 @@ export default function SellPropertyOne({border}: {border: any}) {
 						>
 							<div className="listing-img-wrapper">
 								<Link href={`/properties/${item.id}`}>
-									{item.image.slice(0, 1).map((el, index) => {
-										return (
-											<Image
-												src={el}
-												width={0}
-												height={0}
-												sizes="100vw"
-												style={{width: '100%', height: '210px'}}
-												className="img-fluid mx-auto rounded"
-												alt=""
-												key={index}
-											/>
-										);
-									})}
+									<Image
+										src={item.image1 || '/img/properties/img-1.jpg'}
+										width={0}
+										height={0}
+										sizes="100vw"
+										style={{width: '100%', height: '210px'}}
+										className="img-fluid mx-auto rounded"
+										alt=""
+										key={index}
+									/>
 								</Link>
 							</div>
 							<div className="listing-content">
@@ -61,12 +53,14 @@ export default function SellPropertyOne({border}: {border: any}) {
 												>
 													{item.tag2}
 												</span> */}
-												<span className={`label bg-light-purple text-purple d-inline-flex mb-1`}>
-													{item.type}
+												<span
+													className={`label bg-light-purple text-purple d-inline-flex mb-1 text-capitalize`}
+												>
+													{item.property_type}
 												</span>
 											</div>
 											<h4 className="listing-name mb-1 mt-2">
-												<Link href={`/properties/${item.id}`}>{item.name}</Link>
+												<Link href={`/properties/${item.id}`}>{item.title}</Link>
 											</h4>
 											{/* <div className="fr-can-rating">
 												<i className="fas fa-star fs-xs filled" style={{margin: '0 2px'}}></i>
@@ -78,7 +72,7 @@ export default function SellPropertyOne({border}: {border: any}) {
 											</div> */}
 										</div>
 										<div className="list-price">
-											<h6 className="listing-card-info-price text-primary">{item.value}</h6>
+											<h6 className="listing-card-info-price text-primary">৳{item.price}</h6>
 										</div>
 									</div>
 								</div>
@@ -87,21 +81,21 @@ export default function SellPropertyOne({border}: {border: any}) {
 									<div className="list-fx-features d-flex align-items-center justify-content-between mt-3 mb-1">
 										<div className="listing-card d-flex align-items-center">
 											<div className="square--25 text-muted-2 fs-sm circle gray-simple me-1">
-												<i className="fa-solid fa-building-shield fs-xs"></i>
+												<i className="fa-solid fa-mountain fs-xs"></i>
 											</div>
-											<span className="text-muted-2 fs-sm">{item.size}</span>
+											<span className="text-muted-2 fs-sm text-capitalize">{item.soil_type}</span>
 										</div>
 										<div className="listing-card d-flex align-items-center">
 											<div className="square--25 text-muted-2 fs-sm circle gray-simple me-1">
-												<i className="fa-solid fa-bed fs-xs"></i>
+												<i className="fa-solid fa-shapes fs-xs"></i>
 											</div>
-											<span className="text-muted-2 fs-sm">{item.beds}</span>
+											<span className="text-muted-2 fs-sm text-capitalize">{item.land_shape}</span>
 										</div>
 										<div className="listing-card d-flex align-items-center">
 											<div className="square--25 text-muted-2 fs-sm circle gray-simple me-1">
 												<i className="fa-solid fa-clone fs-xs"></i>
 											</div>
-											<span className="text-muted-2 fs-sm">{item.sqft}</span>
+											<span className="text-muted-2 fs-sm">{item.areas}</span>
 										</div>
 									</div>
 								</div>
@@ -110,7 +104,7 @@ export default function SellPropertyOne({border}: {border: any}) {
 									<div className="listing-locate">
 										<span className="listing-location text-muted-2">
 											<i className="fa-solid fa-location-pin me-1"></i>
-											{item.loction}
+											{item.address}
 										</span>
 									</div>
 									<div className="listing-detail-btn">
