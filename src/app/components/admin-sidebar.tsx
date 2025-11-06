@@ -74,7 +74,7 @@ export default function AdminSidebar({show, setShow}: {show: any; setShow: any})
 									onClick={() => setShow(!show)}
 								>
 									<Link href="/admin/property-inquiry">
-										<i className="fa-solid fa-building-user"></i>Property Inquiry
+										<i className="fa-solid fa-building-user"></i>Properties Inquiry
 									</Link>
 								</li>
 								<li
@@ -82,7 +82,7 @@ export default function AdminSidebar({show, setShow}: {show: any; setShow: any})
 									onClick={() => setShow(!show)}
 								>
 									<Link href="/admin/my-property">
-										<i className="fa-solid fa-building-circle-check"></i>My Properties
+										<i className="fa-solid fa-building"></i>My Properties
 									</Link>
 								</li>
 								<li
@@ -91,6 +91,14 @@ export default function AdminSidebar({show, setShow}: {show: any; setShow: any})
 								>
 									<Link href="#" onClick={() => handleSelectSubmit()}>
 										<i className="fa-solid fa-house"></i>Submit New Property
+									</Link>
+								</li>
+								<li
+									className={current === '/admin/messages' ? 'active' : ''}
+									onClick={() => setShow(!show)}
+								>
+									<Link href="/admin/messages">
+										<i className="fa-solid fa-message"></i>User Messages
 									</Link>
 								</li>
 								<li
