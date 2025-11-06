@@ -1,6 +1,6 @@
 import {baseApi} from '@/redux/baseApi';
 
-const propertyManagementApi = baseApi.injectEndpoints({
+export const propertyManagementApi = baseApi.injectEndpoints({
 	endpoints: (builder) => ({
 		// 🟢 Get all properties
 		getAllProperties: builder.query({

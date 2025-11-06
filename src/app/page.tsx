@@ -10,11 +10,16 @@ import FooterTop from './components/footer-top';
 import ScrollToTop from './components/scroll-to-top';
 import Footer from './components/footer';
 import {Metadata} from 'next';
+import {prefetchProperties} from '@/services/server/serverPrefetch';
+import {IProperty} from '@/types/property.types';
 export const metadata: Metadata = {
 	title: 'Home - Propertysalesbuy',
 	description: 'Bangladesh Flat, House & Apartment Rental Platform',
 };
-export default function Page() {
+export default async function Page() {
+	const property = await prefetchProperties();
+	const propertyState = (property?.baseApi?.queries?.['getAllProperties("")']?.data ??
+		[]) as IProperty[];
 	return (
 		<>
 			<div
@@ -65,15 +70,22 @@ export default function Page() {
 					<div className="row justify-content-center">
 						<div className="col-lg-7 col-md-10 text-center">
 							<div className="sec-heading center">
-								<h2>Recent Property For Rent</h2>
+								<h2>Recent Apartments For Sell</h2>
 								<p>
-									Explore the latest rental properties—modern, convenient, and ready to move in.
+									Explore the latest apartments for sell—modern, convenient, and ready to move in.
 									Find your perfect space with ease and confidence.
 								</p>
 							</div>
 						</div>
 					</div>
-					<PropertySlider />
+					<PropertySlider propertyState={propertyState} />
+					<div className="row">
+						<div className="col-lg-12 col-md-12 col-sm-12 text-center mt-4">
+							<Link href="/properties" className="btn btn-primary px-lg-5 rounded">
+								Browse More Properties
+							</Link>
+						</div>
+					</div>
 				</div>
 			</section>
 

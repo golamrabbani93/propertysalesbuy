@@ -23,32 +23,32 @@ const settings = {
 };
 
 export default function GridProperty({item, border}: {item: any; border: any}) {
+	// get image1 to image 6 and make array
+
+	const images = [
+		item?.image1,
+		item?.image2,
+		item?.image3,
+		item?.image4,
+		item?.image5,
+		item?.image6,
+	].filter(Boolean);
+
 	return (
 		<div className={`property-listing card rounded-3 ${border ? 'border' : 'border-0'}`}>
 			<div className={`listing-img-wrapper p-3 `}>
 				<div className="list-img-slide position-relative">
 					<div className="position-absolute top-0 left-0 ms-3 mt-3 z-1">
-						{item.tag.map((el: any, index: number) => {
-							return (
-								<div
-									key={index}
-									className={`label text-light d-inline-flex align-items-center justify-content-center mx-1 ${
-										el === 'Verified' ? 'bg-success' : ''
-									} ${el === 'SuperAgent' ? 'bg-purple' : ''} ${el === 'New' ? 'bg-danger' : ''}`}
-								>
-									{el === 'Verified' && <img src="/img/svg/verified.svg" alt="" className="me-1" />}
-
-									{el === 'SuperAgent' && <img src="/img/svg/user-1.svg" alt="" className="me-1" />}
-
-									{el === 'New' && <img src="/img/svg/moon.svg" alt="" className="me-1" />}
-									{el}
-								</div>
-							);
-						})}
+						<div
+							className={`label text-light d-inline-flex align-items-center justify-content-center mx-1
+									bg-success `}
+						>
+							<img src="/img/svg/verified.svg" alt="" className="me-1" /> Verified
+						</div>
 					</div>
 					<div className="click rounded-3 overflow-hidden mb-0">
 						<TinySlider settings={settings}>
-							{item.image.map((el: any, index: number) => {
+							{images?.map((el: string, index: number) => {
 								return (
 									<div key={index}>
 										<Link href={`/properties/${item.id}`}>
@@ -75,22 +75,18 @@ export default function GridProperty({item, border}: {item: any; border: any}) {
 					<div className="listing-short-detail-wrap">
 						<div className="listing-short-detail">
 							<div className="d-flex align-items-center">
-								{/* {item.tag2 === 'For Rent' && (
-									<span className="label bg-light-success text-success prt-type me-2">
-										For Rent
-									</span>
-								)}
-								{item.tag2 === 'For Sell' && (
-									<span className="label bg-light-danger text-danger prt-type me-2">For Sell</span>
-								)} */}
-								<span className="label bg-light-purple text-purple property-cats">{item.type}</span>
+								<span className="label bg-light-danger text-danger prt-type me-2">For Sell</span>
+
+								<span className="label bg-light-purple text-purple property-cats text-capitalize">
+									{item?.property_type}
+								</span>
 							</div>
 							<h4 className="listing-name fw-semibold fs-5 mb-2 mt-3">
-								<Link href={`/properties/${item.id}`}>{item.name}</Link>
+								<Link href={`/properties/${item.id}`}>{item.title}</Link>
 							</h4>
 							<div className="prt-location text-muted-2 d-flex">
 								<img src="/img/svg/map-1.svg" alt="" />
-								{item.loction}
+								{item?.address}
 							</div>
 						</div>
 					</div>
@@ -102,26 +98,26 @@ export default function GridProperty({item, border}: {item: any; border: any}) {
 							<div className="square--25 text-muted-2 fs-sm circle gray-simple me-1">
 								<i className="fa-solid fa-building-shield fs-xs"></i>
 							</div>
-							<span className="text-muted-2 fs-sm">{item.size}</span>
+							<span className="text-muted-2 fs-sm">4 BHK</span>
 						</div>
 						<div className="listing-card d-flex align-items-center">
 							<div className="square--25 text-muted-2 fs-sm circle gray-simple me-1">
 								<i className="fa-solid fa-bed fs-xs"></i>
 							</div>
-							<span className="text-muted-2 fs-sm">{item.beds}</span>
+							<span className="text-muted-2 fs-sm">{item?.bedrooms} beds</span>
 						</div>
 						<div className="listing-card d-flex align-items-center">
 							<div className="square--25 text-muted-2 fs-sm circle gray-simple me-1">
 								<i className="fa-solid fa-clone fs-xs"></i>
 							</div>
-							<span className="text-muted-2 fs-sm">{item.sqft}</span>
+							<span className="text-muted-2 fs-sm">{item?.areas}</span>
 						</div>
 					</div>
 				</div>
 
 				<div className="listing-detail-footer d-flex align-items-center justify-content-between py-4">
 					<div className="listing-short-detail-flex">
-						<h6 className="listing-card-info-price m-0">{item.value}</h6>
+						<h6 className="listing-card-info-price m-0">৳{item?.price}</h6>
 					</div>
 					<div className="footer-flex">
 						<Link href={`/properties/${item.id}`} className="prt-view">
