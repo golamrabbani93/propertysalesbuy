@@ -20,6 +20,7 @@ import {useAppDispatch} from '@/redux/hooks';
 import {setUser} from '@/redux/features/auth/authSlice';
 import {useGetAllUsersQuery} from '@/redux/features/user/userManagementApi';
 import {TUser} from '@/types/user.types';
+import PSBSelect from '../components/form/PSBSelect';
 export default function Page() {
 	const [createUser, {isLoading, error}] = useUserRegisterMutation();
 	const {data: AllUsers, isLoading: isLoadingUsers} = useGetAllUsersQuery('');
@@ -31,8 +32,13 @@ export default function Page() {
 				toast.error('Email already exists');
 				return;
 			}
+
 			const hashedPassword = await hashPassword(data.password);
-			const result = await createUser({...data, password: hashedPassword});
+			const result = await createUser({
+				...data,
+				password: hashedPassword,
+				user_type: data.user_type?.value,
+			});
 			const token = await setToken(result?.data);
 			if (result.error) {
 				toast.error('Registration failed');
@@ -45,7 +51,7 @@ export default function Page() {
 	};
 	return (
 		<>
-			<Navbar transparent={false} />
+			{/* <Navbar transparent={false} /> */}
 
 			<div className="page-title">
 				<div className="container">
@@ -234,6 +240,20 @@ export default function Page() {
 														label="Password"
 														name="password"
 														placeholder="******"
+													/>
+												</div>
+											</div>
+											<div className="col-lg-12 col-md-12 mb-3">
+												<div className="form-group">
+													<PSBSelect
+														label="What Type Are You Selling As?"
+														name="user_type"
+														placeholder="Enter Selling Type (e.g., Individual, Agent, Agency)"
+														options={[
+															{value: 'Individual', label: 'Individual'},
+															{value: 'Agent', label: 'Agent'},
+														]}
+														isDisabled={isLoadingUsers}
 													/>
 												</div>
 											</div>
