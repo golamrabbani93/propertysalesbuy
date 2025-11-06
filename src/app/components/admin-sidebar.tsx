@@ -70,6 +70,14 @@ export default function AdminSidebar({show, setShow}: {show: any; setShow: any})
 									</Link>
 								</li>
 								<li
+									className={current === '/admin/property-inquiry' ? 'active' : ''}
+									onClick={() => setShow(!show)}
+								>
+									<Link href="/admin/property-inquiry">
+										<i className="fa-solid fa-building-user"></i>Property Inquiry
+									</Link>
+								</li>
+								<li
 									className={current === '/admin/my-property' ? 'active' : ''}
 									onClick={() => setShow(!show)}
 								>
