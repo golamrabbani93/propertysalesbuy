@@ -7,6 +7,7 @@ import {Toaster} from 'sonner';
 import MobileNav from './components/navbar/MobileNav';
 import Navbar from './components/navbar/navbar';
 import React from 'react';
+import TotalViews from './components/total-views/TotalViews';
 // const Navbar = dynamic(() => import('./components/navbar/navbar'), {ssr: false});
 export const metadata: Metadata = {
 	title: 'Home - Propertysalesbuy',
@@ -25,6 +26,7 @@ export default function RootLayout({
 					<Navbar transparent={false} />
 					{children}
 					<MobileNav />
+					<TotalViews />
 				</Providers>
 				<div
 					style={{
