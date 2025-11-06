@@ -13,8 +13,18 @@ import {galleryImg, propertyFeature} from '../../data/property';
 
 import '../../../../node_modules/react-modal-video/css/modal-video.css';
 import '../../../../node_modules/react-18-image-lightbox/style.css';
+import {IProperty} from '@/types/property.types';
+import VideoModal from '../VideoModal/VideoModal';
 
-export default function PropertyDetail() {
+export default function PropertyDetail({data}: {data: IProperty}) {
+	const images = [
+		data?.image1,
+		data?.image2,
+		data?.image3,
+		data?.image4,
+		data?.image5,
+		data?.image6,
+	].filter(Boolean) as string[];
 	const [isOpen, setIsOpen] = useState(false);
 	let [open, setOpen] = useState<boolean>(true);
 	let [open2, setOpen2] = useState<boolean>(true);
@@ -53,33 +63,6 @@ export default function PropertyDetail() {
 					<Link
 						href="#"
 						scroll={false}
-						onClick={() => setOpen(!open)}
-						className={open ? '' : 'collapsed'}
-					>
-						<h4 className="property_block_title">Detail & Features</h4>
-					</Link>
-				</div>
-				<div id="clOne" className={`panel-collapse collapse ${open ? 'show' : ''}`}>
-					<div className="block-body">
-						<ul className="deatil_features">
-							{propertyFeature.map((item: any, index: number) => {
-								return (
-									<li key={index}>
-										<strong>{item.title}</strong>
-										{item.value}
-									</li>
-								);
-							})}
-						</ul>
-					</div>
-				</div>
-			</div>
-
-			<div className="property_block_wrap style-2">
-				<div className="property_block_wrap_header">
-					<Link
-						href="#"
-						scroll={false}
 						onClick={() => setOpen2(!open2)}
 						className={open2 ? '' : 'collapsed'}
 					>
@@ -88,17 +71,7 @@ export default function PropertyDetail() {
 				</div>
 				<div id="clTwo" className={`panel-collapse collapse ${open2 ? 'show' : ''}`}>
 					<div className="block-body">
-						<p>
-							Experience luxury and comfort in this modern and spacious apartment located in the
-							prestigious Gulshan area of Dhaka. Featuring 3BHK of thoughtfully designed living
-							space, 3 comfortable bedrooms, and 1800 SQFT of elegant interiors, this property
-							blends style with functionality. The apartment offers high-quality finishes, ample
-							natural light, and a well-planned layout perfect for families or professionals. Enjoy
-							easy access to shopping centers, schools, restaurants, and entertainment hubs, making
-							your everyday life convenient and enjoyable. With a focus on safety, privacy, and
-							modern living, this property provides the ideal environment for creating lasting
-							memories and a comfortable lifestyle in the heart of the city."
-						</p>
+						<p>{data?.description}</p>
 					</div>
 				</div>
 			</div>
@@ -111,24 +84,21 @@ export default function PropertyDetail() {
 						onClick={() => setOpen3(!open3)}
 						className={open3 ? '' : 'collapsed'}
 					>
-						<h4 className="property_block_title">Ameneties</h4>
+						<h4 className="property_block_title">Feature & Amenities</h4>
 					</Link>
 				</div>
 				<div id="clThree" className={`panel-collapse collapse ${open3 ? 'show' : ''}`}>
 					<div className="block-body">
 						<ul className="avl-features third color">
-							<li>Air Conditioning</li>
-							<li>Swimming Pool</li>
-							<li>Central Heating</li>
-							<li>Laundry Room</li>
-							<li>Gym</li>
-							<li>Alarm</li>
-							<li>Window Covering</li>
-							<li>Internet</li>
-							<li>Pets Allow</li>
-							<li>Free WiFi</li>
-							<li>Car Parking</li>
-							<li>Spa & Massage</li>
+							{data?.property_type === 'land' &&
+								data?.utility_access.map((feature: any, index: number) => (
+									<li key={index}>{feature.label}</li>
+								))}
+							{data?.property_type !== 'land' &&
+								Array.isArray(data?.amenities) &&
+								data.amenities.map((feature: any, index: number) => (
+									<li key={index}>{feature.label}</li>
+								))}
 						</ul>
 					</div>
 				</div>
@@ -174,16 +144,23 @@ export default function PropertyDetail() {
 						</div>
 					</div>
 				</div>
-				<ModalVideo
+				{/* <ModalVideo
 					channel="youtube"
 					youtube={{mute: 0, autoplay: 0}}
 					isOpen={isOpen}
-					videoId="yba7hPeTSjk"
+					src={videoUrl}
 					onClose={() => setIsOpen(false)}
+				/> */}
+
+				<VideoModal
+					show={isOpen}
+					onClose={() => setIsOpen(false)}
+					videoUrl={data?.videos || ''}
+					autoPlay={true}
 				/>
 			</div>
 
-			<div className="property_block_wrap style-2">
+			{/* <div className="property_block_wrap style-2">
 				<div className="property_block_wrap_header">
 					<Link
 						href="#"
@@ -278,9 +255,9 @@ export default function PropertyDetail() {
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> */}
 
-			<div className="property_block_wrap style-2">
+			{/* <div className="property_block_wrap style-2">
 				<div className="property_block_wrap_header">
 					<Link
 						href="#"
@@ -305,7 +282,7 @@ export default function PropertyDetail() {
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> */}
 
 			<div className="property_block_wrap style-2">
 				<div className="property_block_wrap_header">
@@ -322,7 +299,7 @@ export default function PropertyDetail() {
 				<div id="clSev" className={`panel-collapse collapse ${open7 ? 'show' : ''}`}>
 					<div className="block-body">
 						<ul className="list-gallery-inline">
-							{galleryImg.map((item: any, index: number) => {
+							{images.map((item: any, index: number) => {
 								return (
 									<li key={index}>
 										<Link href="#" className="mfp-gallery" onClick={() => onImageClick(index)}>
@@ -342,14 +319,14 @@ export default function PropertyDetail() {
 						</ul>
 						{photo && (
 							<Lightbox
-								mainSrc={galleryImg[activeIndex]}
-								nextSrc={galleryImg[(activeIndex + 1) % galleryImg.length]}
-								prevSrc={galleryImg[(activeIndex + galleryImg.length - 1) % galleryImg.length]}
+								mainSrc={images[activeIndex]}
+								nextSrc={images[(activeIndex + 1) % images.length]}
+								prevSrc={images[(activeIndex + images.length - 1) % images.length]}
 								onCloseRequest={() => setPhoto(false)}
 								onMovePrevRequest={() =>
-									setActiveIndex((activeIndex + galleryImg.length - 1) % galleryImg.length)
+									setActiveIndex((activeIndex + images.length - 1) % images.length)
 								}
-								onMoveNextRequest={() => setActiveIndex((activeIndex + 1) % galleryImg.length)}
+								onMoveNextRequest={() => setActiveIndex((activeIndex + 1) % images.length)}
 							/>
 						)}
 					</div>

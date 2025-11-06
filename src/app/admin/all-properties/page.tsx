@@ -17,7 +17,6 @@ export default function Page() {
 	const user = useAppSelector(selectUser);
 	const {data, isLoading} = useGetAllPropertiesQuery(undefined);
 	const pathname = usePathname();
-	console.log('🚀🚀 ~ Page ~ pathname:', pathname);
 	if (isLoading) {
 		return <DashboardLoader />;
 	}

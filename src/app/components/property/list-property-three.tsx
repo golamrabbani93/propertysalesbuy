@@ -74,7 +74,7 @@ export default function ListPropertyThree({item}: {item: IProperty}) {
 								<div className="_card_flex_01 d-flex align-items-center">
 									<span className="label bg-light-danger text-danger me-2">For Sell</span>
 
-									<span className="label bg-light-purple text-purple text-capitalize">
+									<span className="label bg-light-purple text-purple text-capitalize me-2">
 										{item.property_type}
 									</span>
 								</div>

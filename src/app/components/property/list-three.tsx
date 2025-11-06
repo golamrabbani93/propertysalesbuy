@@ -25,7 +25,6 @@ export default function ListThree({propertyState}: {propertyState: IProperty[]})
 	const itemsPerPage = 5;
 
 	const propertyDatas = filterProperties(propertyState, filter);
-	console.log('🚀🚀 ~ ListThree ~ propertyDatas:', propertyDatas);
 	const [currentPage, setCurrentPage] = useState(1);
 
 	const totalPages = Math.ceil(propertyDatas?.length / itemsPerPage);

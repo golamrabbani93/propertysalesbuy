@@ -11,7 +11,6 @@ type Filter = {
 };
 
 export function filterProperties(properties: IProperty[], filter: Filter) {
-	console.log('🚀🚀 ~ filterProperties ~ filter:', filter);
 	return properties.filter((property) => {
 		// Search by name (case insensitive)
 		if (
@@ -56,7 +55,6 @@ export function filterProperties(properties: IProperty[], filter: Filter) {
 			};
 
 			const range = priceRanges[filter.priceRange];
-			console.log('🚀🚀 ~ filterProperties ~ range:', range);
 			if (!range) {
 				console.warn('No matching range for:', filter.priceRange);
 				return false;
