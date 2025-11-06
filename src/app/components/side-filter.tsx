@@ -36,7 +36,28 @@ export default function SideFilter({
 			superAgent,
 		});
 	}, [location, propertyType, bedrooms, priceRange, verified, superAgent, setFilter]);
-
+	const cities = [
+		'Banani',
+		'Gulshan',
+		'Bashundhara',
+		'Dhanmondi',
+		'Uttara',
+		'Mirpur',
+		'Motijheel',
+		'Mohammadpur',
+		'Tejgaon',
+		'Jatrabari',
+		'Rampura',
+		'Badda',
+		'Puran Dhaka',
+		'Shahbagh',
+		'Khilgaon',
+		'Mohakhali',
+		'Cantonment',
+		'Adabor',
+		'Korail',
+		'Keraniganj',
+	];
 	return (
 		<div
 			className={`simple-sidebar sm-sidebar ${show ? 'd-block' : ''}`}
@@ -69,10 +90,10 @@ export default function SideFilter({
 					</div>
 
 					<div className="position-relative d-flex flex-xl-row flex-column align-items-center">
-						<div className="verifyd-prt-block flex-fill full-width my-1 me-1">
+						{/* <div className="verifyd-prt-block flex-fill full-width my-1 me-1">
 							<div className="d-flex align-items-center justify-content-center justify-content-between border rounded-3 px-2 py-3">
 								<div className="eliok-cliops d-flex align-items-center">
-									<span className="svg-icon text-success svg-icon-2hx">{/* Verified SVG */}</span>
+									<span className="svg-icon text-success svg-icon-2hx"></span>
 									<span className="text-muted-2 fw-medium ms-1">Verified</span>
 								</div>
 								<div className="form-check form-switch">
@@ -87,12 +108,12 @@ export default function SideFilter({
 									<label className="form-check-label" htmlFor="verifiedSwitch"></label>
 								</div>
 							</div>
-						</div>
+						</div> */}
 
-						<div className="super-agt-block flex-fill full-width my-1 ms-1">
+						{/* <div className="super-agt-block flex-fill full-width my-1 ms-1">
 							<div className="d-flex align-items-center justify-content-center justify-content-between border rounded-3 px-2 py-3">
 								<div className="eliok-cliops d-flex align-items-center">
-									<span className="svg-icon text-warning svg-icon-2hx">{/* SuperAgent SVG */}</span>
+									<span className="svg-icon text-warning svg-icon-2hx"></span>
 									<span className="text-muted-2 fw-medium ms-1">SuperAgent</span>
 								</div>
 								<div className="form-check form-switch">
@@ -107,7 +128,7 @@ export default function SideFilter({
 									<label className="form-check-label" htmlFor="superAgentSwitch"></label>
 								</div>
 							</div>
-						</div>
+						</div> */}
 					</div>
 
 					<div className="filter_wraps">
@@ -124,7 +145,7 @@ export default function SideFilter({
 										<div className="card-body pt-0">
 											<div className="inner_widget_link">
 												<ul className="no-ul-list filter-list">
-													{['Banani', 'Gulshan', 'Bashundhara'].map((city) => (
+													{cities.map((city) => (
 														<li className="form-check" key={city}>
 															<input
 																id={`where-${city}`}
@@ -160,7 +181,7 @@ export default function SideFilter({
 										<div className="card-body pt-0">
 											<div className="inner_widget_link">
 												<ul className="no-ul-list filter-list">
-													{['House', 'Villa', 'Apartment', 'Condo'].map((ptype) => (
+													{['House', 'Villa', 'Apartment', 'Condo', 'Land'].map((ptype) => (
 														<li className="form-check" key={ptype}>
 															<input
 																id={`ptype-${ptype}`}
@@ -184,7 +205,7 @@ export default function SideFilter({
 						</div>
 
 						{/* Bedrooms Filter */}
-						<div className="single_search_boxed">
+						{/* <div className="single_search_boxed">
 							<div className="widget-boxed-header">
 								<h4 onClick={() => setOpen3(!open3)} className={open3 ? '' : 'collapsed'}>
 									Bedrooms<span className="selected">{bedrooms}</span>
@@ -219,7 +240,7 @@ export default function SideFilter({
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> */}
 
 						{/* Price Range Filter */}
 						<div className="single_search_boxed">
@@ -237,12 +258,12 @@ export default function SideFilter({
 													{[
 														'Less Than ৳1,200,000',
 														'৳1,200,000 - ৳1,800,000',
-														'৳1,440,000 - ৳3,000,000',
-														'৳3,600,000 - ৳4,200,000',
-														'৳4,800,000 - ৳5,400,000',
-														'৳6,000,000 - ৳6,600,000',
-														'৳7,200,000 - ৳7,800,000',
-														'More Than ৳8,400,000',
+														'৳1,800,001 - ৳3,000,000',
+														'৳3,000,001 - ৳4,200,000',
+														'৳4,200,001 - ৳5,400,000',
+														'৳5,400,001 - ৳6,600,000',
+														'৳6,600,001 - ৳7,800,000',
+														'More Than ৳7,800,000',
 													].map((price) => (
 														<li className="form-check" key={price}>
 															<input

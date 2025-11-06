@@ -4,12 +4,16 @@ import Footer from '../components/footer';
 import ScrollToTop from '../components/scroll-to-top';
 import ListThree from '../components/property/list-three';
 import {Metadata} from 'next';
+import {prefetchProperties} from '@/services/server/serverPrefetch';
+import {IProperty} from '@/types/property.types';
 export const metadata: Metadata = {
 	title: 'Properties - Propertysalesbuy',
 	description: 'Bangladesh Flat, House & Apartment Rental Platform',
 };
-export default function Page() {
-	// const search = useSearchParams();
+export default async function Page() {
+	const property = await prefetchProperties();
+	const propertyState = (property?.baseApi?.queries?.['getAllProperties("")']?.data ??
+		[]) as IProperty[];
 
 	return (
 		<>
@@ -25,7 +29,7 @@ export default function Page() {
 			</div>
 
 			<section className="gray-simple">
-				<ListThree />
+				<ListThree propertyState={propertyState} />
 			</section>
 
 			<FooterTop bg="theme-bg" />

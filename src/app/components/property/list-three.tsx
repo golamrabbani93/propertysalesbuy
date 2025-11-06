@@ -9,8 +9,9 @@ import ListPropertyThree from './list-property-three';
 import {propertyData} from '@/app/data/data';
 import {filterProperties} from '@/app/utils/filterProperties';
 import PropertyPagination from '@/app/utils/PropertyPagination';
+import {IProperty} from '@/types/property.types';
 
-export default function ListThree() {
+export default function ListThree({propertyState}: {propertyState: IProperty[]}) {
 	const [show, setShow] = useState<boolean>(false);
 	const [filter, setFilter] = useState({
 		location: '',
@@ -23,7 +24,8 @@ export default function ListThree() {
 	});
 	const itemsPerPage = 5;
 
-	const propertyDatas = filterProperties(propertyData, filter);
+	const propertyDatas = filterProperties(propertyState, filter);
+	console.log('🚀🚀 ~ ListThree ~ propertyDatas:', propertyDatas);
 	const [currentPage, setCurrentPage] = useState(1);
 
 	const totalPages = Math.ceil(propertyDatas?.length / itemsPerPage);

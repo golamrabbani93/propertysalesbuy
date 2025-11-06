@@ -1,3 +1,5 @@
+import {IProperty} from '@/types/property.types';
+
 type Filter = {
 	location: string;
 	propertyType: string;
@@ -8,12 +10,13 @@ type Filter = {
 	searchText?: string;
 };
 
-export function filterProperties(properties: any[], filter: Filter) {
+export function filterProperties(properties: IProperty[], filter: Filter) {
+	console.log('🚀🚀 ~ filterProperties ~ filter:', filter);
 	return properties.filter((property) => {
 		// Search by name (case insensitive)
 		if (
 			filter.searchText &&
-			!property.name.toLowerCase().includes(filter.searchText.toLowerCase())
+			!property.title.toLowerCase().includes(filter.searchText.toLowerCase())
 		) {
 			return false;
 		}
@@ -21,55 +24,57 @@ export function filterProperties(properties: any[], filter: Filter) {
 		// Location filter (check if property.loction includes filter.location)
 		if (
 			filter.location &&
-			!property.loction.toLowerCase().includes(filter.location.toLowerCase())
+			!property.address.toLowerCase().includes(filter.location.toLowerCase())
 		) {
 			return false;
 		}
 
 		// Property type filter
-		if (filter.propertyType && property.type !== filter.propertyType) {
+		if (filter.propertyType && property.property_type !== filter.propertyType.toLowerCase()) {
 			return false;
 		}
 
 		// Bedrooms filter (match beds string)
-		if (filter.bedrooms && property.beds !== filter.bedrooms) {
+		if (filter.bedrooms && property.bedrooms !== filter.bedrooms) {
 			return false;
 		}
 
 		// Price range filter
 		if (filter.priceRange) {
-			// Parse price from property.value (e.g., '৳6,700,000' -> 6700000)
-			const priceNumber = Number(property.value.replace(/[^\d]/g, ''));
+			const priceNumber = Number(property.price.replace(/[^\d]/g, ''));
+			console.log('Price:', priceNumber);
 
-			// Define price ranges in numbers (adjust according to your ranges)
 			const priceRanges: Record<string, [number, number]> = {
-				'Less Than ৳1,200,000': [0, 1200000],
+				'Less Than ৳1,200,000': [0, 1199999],
 				'৳1,200,000 - ৳1,800,000': [1200000, 1800000],
-				'৳1,440,000 - ৳3,000,000': [1440000, 3000000],
-				'৳3,600,000 - ৳4,200,000': [3600000, 4200000],
-				'৳4,800,000 - ৳5,400,000': [4800000, 5400000],
-				'৳6,000,000 - ৳6,600,000': [6000000, 6600000],
-				'৳7,200,000 - ৳7,800,000': [7200000, 7800000],
-				'More Than ৳8,400,000': [8400000, Infinity],
+				'৳1,800,001 - ৳3,000,000': [1800001, 3000000],
+				'৳3,000,001 - ৳4,200,000': [3000001, 4200000],
+				'৳4,200,001 - ৳5,400,000': [4200001, 5400000],
+				'৳5,400,001 - ৳6,600,000': [5400001, 6600000],
+				'৳6,600,001 - ৳7,800,000': [6600001, 7800000],
+				'More Than ৳7,800,000': [7800001, Infinity],
 			};
 
 			const range = priceRanges[filter.priceRange];
-			if (!range) return false;
-
-			if (priceNumber < range[0] || priceNumber > range[1]) {
+			console.log('🚀🚀 ~ filterProperties ~ range:', range);
+			if (!range) {
+				console.warn('No matching range for:', filter.priceRange);
 				return false;
 			}
+
+			const [min, max] = range;
+			return priceNumber >= min && priceNumber <= max;
 		}
 
-		// Verified filter (assuming 'Verified' means tag includes 'Verified')
-		if (filter.verified && !property.tag.includes('Verified')) {
-			return false;
-		}
+		// // Verified filter (assuming 'Verified' means tag includes 'Verified')
+		// if (filter.verified && !property.tag.includes('Verified')) {
+		// 	return false;
+		// }
 
-		// SuperAgent filter (check if tag includes 'SuperAgent')
-		if (filter.superAgent && !property.tag.includes('SuperAgent')) {
-			return false;
-		}
+		// // SuperAgent filter (check if tag includes 'SuperAgent')
+		// if (filter.superAgent && !property.tag.includes('SuperAgent')) {
+		// 	return false;
+		// }
 
 		return true;
 	});
