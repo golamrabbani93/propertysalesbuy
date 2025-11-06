@@ -81,22 +81,29 @@ const InquiryDetailsModal: React.FC<InquiryDetailsModalProps> = ({show, onClose,
 					<h4 className="fw-bold mb-3 text-primary">Inquiry Details</h4>
 
 					<div className="text-start">
+						{data.name && (
+							<p>
+								<strong>Name:</strong> {data.name}
+							</p>
+						)}
 						<p>
 							<strong>Email:</strong> {data.email}
 						</p>
 						<p>
 							<strong>Phone:</strong> {data.phone}
 						</p>
-						<p>
-							<strong>Property Information:</strong>
-							<Link
-								href={`/properties/${data.property_id}`}
-								className="btn btn-sm btn-info ms-2"
-								target="_blank"
-							>
-								View Property
-							</Link>
-						</p>
+						{data.property_id && (
+							<p>
+								<strong>Property Information:</strong>
+								<Link
+									href={`/properties/${data.property_id}`}
+									className="btn btn-sm btn-info ms-2"
+									target="_blank"
+								>
+									View Property
+								</Link>
+							</p>
+						)}
 						{data.subject && (
 							<p>
 								<strong>Subject:</strong> {data.subject}
