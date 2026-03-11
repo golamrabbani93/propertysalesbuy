@@ -1,5 +1,5 @@
 'use client';
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import Link from 'next/link';
 
 import FilterTop from '../filter-top';
@@ -24,7 +24,7 @@ export default function ListThree({propertyState}: {propertyState: IProperty[]})
 	});
 	const itemsPerPage = 5;
 
-	const propertyDatas = filterProperties(propertyState, filter);
+	const propertyDatas = useMemo(() => filterProperties(propertyState, filter), [propertyState, filter]);
 	const [currentPage, setCurrentPage] = useState(1);
 
 	const totalPages = Math.ceil(propertyDatas?.length / itemsPerPage);

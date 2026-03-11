@@ -26,16 +26,21 @@ export default function PropertyDetail({data}: {data: IProperty}) {
 		data?.image6,
 	].filter(Boolean) as string[];
 	const [isOpen, setIsOpen] = useState(false);
-	let [open, setOpen] = useState<boolean>(true);
-	let [open2, setOpen2] = useState<boolean>(true);
-	let [open3, setOpen3] = useState<boolean>(true);
-	let [open4, setOpen4] = useState<boolean>(false);
-	let [open5, setOpen5] = useState<boolean>(false);
-	let [open6, setOpen6] = useState<boolean>(false);
-	let [open7, setOpen7] = useState<boolean>(false);
-	let [open8, setOpen8] = useState<boolean>(true);
-	let [open9, setOpen9] = useState<boolean>(true);
-	let [open10, setOpen10] = useState<boolean>(true);
+	const [accordionOpen, setAccordionOpen] = useState({
+		open: true,
+		open2: true,
+		open3: true,
+		open4: false,
+		open5: false,
+		open6: false,
+		open7: false,
+		open8: true,
+		open9: true,
+		open10: true,
+	});
+	const toggleAccordion = (key: keyof typeof accordionOpen) => {
+		setAccordionOpen((prev) => ({...prev, [key]: !prev[key]}));
+	};
 	let [show, setShow] = useState<boolean>(false);
 	let [show2, setShow2] = useState<boolean>(false);
 	let [show3, setShow3] = useState<boolean>(false);
@@ -63,13 +68,13 @@ export default function PropertyDetail({data}: {data: IProperty}) {
 					<Link
 						href="#"
 						scroll={false}
-						onClick={() => setOpen2(!open2)}
-						className={open2 ? '' : 'collapsed'}
+						onClick={() => toggleAccordion('open2')}
+						className={accordionOpen.open2 ? '' : 'collapsed'}
 					>
 						<h4 className="property_block_title">Description</h4>
 					</Link>
 				</div>
-				<div id="clTwo" className={`panel-collapse collapse ${open2 ? 'show' : ''}`}>
+				<div id="clTwo" className={`panel-collapse collapse ${accordionOpen.open2 ? 'show' : ''}`}>
 					<div className="block-body">
 						<p>{data?.description}</p>
 					</div>
@@ -81,13 +86,13 @@ export default function PropertyDetail({data}: {data: IProperty}) {
 					<Link
 						href="#"
 						scroll={false}
-						onClick={() => setOpen3(!open3)}
-						className={open3 ? '' : 'collapsed'}
+						onClick={() => toggleAccordion('open3')}
+						className={accordionOpen.open3 ? '' : 'collapsed'}
 					>
 						<h4 className="property_block_title">Feature & Amenities</h4>
 					</Link>
 				</div>
-				<div id="clThree" className={`panel-collapse collapse ${open3 ? 'show' : ''}`}>
+				<div id="clThree" className={`panel-collapse collapse ${accordionOpen.open3 ? 'show' : ''}`}>
 					<div className="block-body">
 						<ul className="avl-features third color">
 							{data?.property_type === 'land' &&
@@ -109,14 +114,14 @@ export default function PropertyDetail({data}: {data: IProperty}) {
 					<Link
 						href="#"
 						scroll={false}
-						onClick={() => setOpen4(!open4)}
-						className={open4 ? '' : 'collapsed'}
+						onClick={() => toggleAccordion('open4')}
+						className={accordionOpen.open4 ? '' : 'collapsed'}
 					>
 						<h4 className="property_block_title">Property video</h4>
 					</Link>
 				</div>
 
-				<div id="clFour" className={`panel-collapse collapse ${open4 ? 'show' : ''}`}>
+				<div id="clFour" className={`panel-collapse collapse ${accordionOpen.open4 ? 'show' : ''}`}>
 					<div className="block-body">
 						<div className="property_video">
 							<div className="thumb">
@@ -165,13 +170,13 @@ export default function PropertyDetail({data}: {data: IProperty}) {
 					<Link
 						href="#"
 						scroll={false}
-						onClick={() => setOpen5(!open5)}
-						className={open5 ? '' : 'collapsed'}
+						onClick={() => toggleAccordion('open5')}
+						className={accordionOpen.open5 ? '' : 'collapsed'}
 					>
 						<h4 className="property_block_title">Floor Plan</h4>
 					</Link>
 				</div>
-				<div id="clFive" className={`panel-collapse collapse ${open5 ? 'show' : ''}`}>
+				<div id="clFive" className={`panel-collapse collapse ${accordionOpen.open5 ? 'show' : ''}`}>
 					<div className="block-body">
 						<div className="accordion" id="floor-option">
 							<div className="card">
@@ -262,13 +267,13 @@ export default function PropertyDetail({data}: {data: IProperty}) {
 					<Link
 						href="#"
 						scroll={false}
-						onClick={() => setOpen6(!open6)}
-						className={open6 ? '' : 'collapsed'}
+						onClick={() => toggleAccordion('open6')}
+						className={accordionOpen.open6 ? '' : 'collapsed'}
 					>
 						<h4 className="property_block_title">Location</h4>
 					</Link>
 				</div>
-				<div id="clSix" className={`panel-collapse collapse ${open6 ? 'show' : ''}`}>
+				<div id="clSix" className={`panel-collapse collapse ${accordionOpen.open6 ? 'show' : ''}`}>
 					<div className="block-body">
 						<div className="map-container">
 							<iframe
@@ -289,14 +294,14 @@ export default function PropertyDetail({data}: {data: IProperty}) {
 					<Link
 						href="#"
 						scroll={false}
-						onClick={() => setOpen7(!open7)}
-						className={open7 ? '' : 'collapsed'}
+						onClick={() => toggleAccordion('open7')}
+						className={accordionOpen.open7 ? '' : 'collapsed'}
 					>
 						<h4 className="property_block_title">Gallery</h4>
 					</Link>
 				</div>
 
-				<div id="clSev" className={`panel-collapse collapse ${open7 ? 'show' : ''}`}>
+				<div id="clSev" className={`panel-collapse collapse ${accordionOpen.open7 ? 'show' : ''}`}>
 					<div className="block-body">
 						<ul className="list-gallery-inline">
 							{images.map((item: any, index: number) => {
