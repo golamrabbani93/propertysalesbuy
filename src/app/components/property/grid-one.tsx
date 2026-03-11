@@ -74,9 +74,9 @@ export default function GridOne() {
                 </div>
                 
                 <div className="row justify-content-center g-4">
-                    {propertyData.slice(0,6).map((item,index)=>{
+                    {propertyData.slice(0,6).map((item)=>{
                         return(
-                            <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12" key={index}>
+                            <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12" key={item.id}>
                                 <GridProperty item={item} border={false}/>
                             </div>
                         )

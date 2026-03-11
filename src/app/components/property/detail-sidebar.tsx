@@ -18,7 +18,7 @@ export default function DetailSidebar({id}: {id?: string}) {
 	const [show, setShow] = useState(false);
 	const {data: properties} = useGetAllPropertiesQuery(undefined);
 	//get latest 3 properties
-	const featuredProperties = properties ? [...properties].reverse().slice(0, 3) : [];
+	const featuredProperties = properties ? properties.slice(-3).reverse() : [];
 	const [createMessage, {isLoading}] = useCreateMessageMutation();
 
 	const sendMessage = (data: FieldValues, method: any) => {
@@ -130,9 +130,9 @@ export default function DetailSidebar({id}: {id?: string}) {
 					<h4>Featured Property</h4>
 
 					<div className="sidebar_featured_property">
-						{featuredProperties?.map((item: any, index: number) => {
+						{featuredProperties?.map((item: any) => {
 							return (
-								<div className="sides_list_property" key={index}>
+								<div className="sides_list_property" key={item.id}>
 									<div className="sides_list_property_thumb">
 										<Image src={item.image1} width={125} height={75} className="img-fluid" alt="" />
 									</div>
